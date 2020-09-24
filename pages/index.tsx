@@ -11,7 +11,9 @@ export default function Home() {
 
       <View minHeight="100vh" minWidth="100vw">
         <Flex height="100vh" alignItems="center" justifyContent="center">
-          <Button variant="cta">Connect Jira</Button>
+          <Button variant="cta" elementType="a" href="/api/jira/connect">
+            Connect
+          </Button>
         </Flex>
       </View>
     </div>

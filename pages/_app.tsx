@@ -1,7 +1,9 @@
-import Head from 'next/head';
-import { SSRProvider, Provider, defaultTheme } from '@adobe/react-spectrum';
+import Head from 'next/head'
+import { SSRProvider, Provider, defaultTheme } from '@adobe/react-spectrum'
+import { Provider as AuthProvider } from 'next-auth/client'
+import { AppProps } from 'next/app'
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
@@ -9,7 +11,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <SSRProvider>
         <Provider theme={defaultTheme}>
-          <Component {...pageProps} />
+          <AuthProvider session={pageProps.session}>
+            <Component {...pageProps} />
+          </AuthProvider>
         </Provider>
       </SSRProvider>
       <style global jsx>
@@ -21,7 +25,7 @@ function MyApp({ Component, pageProps }) {
         `}
       </style>
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

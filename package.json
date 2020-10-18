@@ -1,5 +1,5 @@
 {
-  "name": "connect",
+  "name": "geql-log",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,12 +7,13 @@
     "build": "next build",
     "start": "next start",
     "prisma:watch": "yarn prisma generate --watch",
-    "db:migrate": "prisma migrate save --experimental && prisma migrate up --experimental",
+    "prisma:migrate": "prisma migrate save --experimental && prisma migrate up --experimental",
     "lint": "eslint pages --fix"
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.4.0",
     "@prisma/client": "2.9.0",
+    "@spectrum-icons/workflow": "^3.2.0",
     "@zeit/next-css": "^1.0.1",
     "next": "9.5.5",
     "next-auth": "^3.1.0",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@prisma/cli": "2.9.0",
+    "@types/next-auth": "^3.1.13",
     "@types/node": "^14.11.10",
     "@types/react": "^16.9.53",
     "eslint-config-react-app": "^6.0.0-next.98",

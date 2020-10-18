@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -54,8 +54,8 @@ model User {
 
 model WorkspaceUser {
   id            Int        @id @default(autoincrement())
-  role          Role       @default(USER)
   userId        Int        @map(name: "user_id")
+  role          Role       @default(USER)
   user          User       @relation(fields: [userId], references: [id])
   workspaceId   Int        @map(name: "workspace_id")
   workspace     Workspace  @relation(fields: [workspaceId], references: [id])
@@ -65,24 +65,8 @@ model Workspace {
   id            Int       @id @default(autoincrement())
   name          String?
   users         WorkspaceUser[]
-  projects      Project[]
-  githubOrgId   String?   @unique @map(name: "github_org_id")
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
-}
-
-model Project {
-  id            Int       @id @default(autoincrement())
-  name          String?
-  setup         ProjectSetup?
-}
-
-model ProjectSetup {
-  id            Int       @id @default(autoincrement())
-  projectId     Int       @map(name: "project_id")
-  sharedSecret  String    @default(uuid()) @map(name: "shared_secret")
-  active        Boolean   @default(true)
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
 }
 
 enum Role {

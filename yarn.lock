@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@adobe/react-spectrum-ui/-/react-spectrum-ui-1.0.1.tgz#5fe405d55534e06d3bf060f86a79935cda5f6615"
   integrity sha512-3RSX2hVWo4n7eUAkYBJmEySc5yfyWXLpQLiSKcOSGIXseD/1aUlPQxcYTdgj8gpRmJH7QghmoHeCjRviRfPXyg==
 
+"@adobe/react-spectrum-workflow@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@adobe/react-spectrum-workflow/-/react-spectrum-workflow-1.0.1.tgz#32537652fb52a6ebf8746ad58268520a04b7f553"
+  integrity sha512-5BM+oJyP4vjmqAV/HSJYLJzR3wDDbEOMUZEEVeKJ81cKyq0aJ6qF9A9tmsW6jb/73cE7PpLr6vb+xqBqTOYsTw==
+
 "@adobe/react-spectrum@^3.4.0":
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/@adobe/react-spectrum/-/react-spectrum-3.4.0.tgz#0b2cc7863ff53824f81a55525cf1ad0aeba20128"
@@ -2420,6 +2425,14 @@
     "@adobe/react-spectrum-ui" "^1.0.0"
     "@react-spectrum/icon" "^3.2.0"
 
+"@spectrum-icons/workflow@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@spectrum-icons/workflow/-/workflow-3.2.0.tgz#3d5c7e124a8967294782c9ae56350996491b2fdd"
+  integrity sha512-DCmyyLMfsAL5OpEzsfwBCeoGNcYgnh2vi8bPjBg+Wp/PTAD3RGERc8Len9KDwjntgwLsT8TVPMc5aqFfoWUFRw==
+  dependencies:
+    "@adobe/react-spectrum-workflow" "^1.0.0"
+    "@react-spectrum/icon" "^3.2.0"
+
 "@sqltools/formatter@1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.2.tgz#9390a8127c0dcba61ebd7fdcc748655e191bdd68"
@@ -2437,6 +2450,16 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
   integrity sha512-3c+yGKvVP5Y9TYBEibGNR+kLtijnj7mYrXRg+WpFb2X9xm04g/DXYkfg4hmzJQosc9snFNUPkbYIhu+KAm6jJw==
 
+"@types/next-auth@^3.1.13":
+  version "3.1.13"
+  resolved "https://registry.yarnpkg.com/@types/next-auth/-/next-auth-3.1.13.tgz#c25710fed7acc5af021c501b8dad8a8dee9b0cb3"
+  integrity sha512-1HKyYcrPFOEuTmKmqDVbXA/1em1OrE65m+HaZP8/uC0Ups1xbUwCMeuJYn8p83MGNJI0JGF0D5vm6ZWdK2bxZw==
+  dependencies:
+    "@types/node" "*"
+    "@types/react" "*"
+    jose "^1.28.0"
+    typeorm "^0.2.24"
+
 "@types/node@*":
   version "14.11.8"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.11.8.tgz#fe2012f2355e4ce08bca44aeb3abbb21cf88d33f"
@@ -2452,7 +2475,7 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
-"@types/react@^16.9.53":
+"@types/react@*", "@types/react@^16.9.53":
   version "16.9.53"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.53.tgz#40cd4f8b8d6b9528aedd1fff8fcffe7a112a3d23"
   integrity sha512-4nW60Sd4L7+WMXH1D6jCdVftuW7j4Za6zdp6tJ33Rqv0nk1ZAmQKML9ZLD4H0dehA3FZxXR/GM8gXplf82oNGw==
@@ -4988,7 +5011,7 @@ jest-worker@24.9.0:
     merge-stream "^2.0.0"
     supports-color "^6.1.0"
 
-jose@^1.27.2:
+jose@^1.27.2, jose@^1.28.0:
   version "1.28.0"
   resolved "https://registry.yarnpkg.com/jose/-/jose-1.28.0.tgz#0803f8c71f43cd293a9d931c555c30531f5ca5dc"
   integrity sha512-JmfDRzt/HSj8ipd9TsDtEHoLUnLYavG+7e8F6s1mx2jfVSfXOTaFQsJUydbjJpTnTDHP1+yKL9Ke7ktS/a0Eiw==

@@ -1,6 +1,9 @@
-import { ActionButton, Flex, View } from '@adobe/react-spectrum'
+import { ActionButton, Flex, View, Grid } from '@adobe/react-spectrum'
 import Head from 'next/head'
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { getSession, signIn, useSession } from 'next-auth/client'
+import Sidebar from '../parts/Sidebar'
+import { prisma } from '../prisma'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
 const head = (
   <Head>
@@ -9,7 +12,9 @@ const head = (
   </Head>
 )
 
-export default function Home() {
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>
+
+const Home = ({ workspaces }: Props) => {
   const [session, loading] = useSession()
 
   if (loading) {
@@ -17,7 +22,17 @@ export default function Home() {
   }
 
   if (session) {
-    return <pre>{JSON.stringify(session)}</pre>
+    return (
+      <>
+        {head}
+        <Grid areas={['sidebar content']} columns={['240px', '3fr']} height="100vh">
+          <View gridArea="sidebar" borderEndWidth="thin" borderColor="gray-300">
+            <Sidebar workspaces={workspaces} />
+          </View>
+          <View gridArea="content" />
+        </Grid>
+      </>
+    )
   }
 
   return (
@@ -25,9 +40,38 @@ export default function Home() {
       {head}
       <View minHeight="100vh" minWidth="100vw">
         <Flex height="100vh" alignItems="center" justifyContent="center">
-          <ActionButton onPress={() => signIn()}>Connect</ActionButton>
+          <ActionButton onPress={() => signIn('github')}>Connect</ActionButton>
         </Flex>
       </View>
     </>
   )
+}
+
+export default Home
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req })
+
+  const workspaces = await prisma.workspaceUser.findMany({
+    where: {
+      user: {
+        email: session.user.email,
+      },
+    },
+    select: {
+      id: true,
+      role: true,
+      workspace: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  })
+
+  return {
+    props: {
+      workspaces,
+    },
+  }
 }

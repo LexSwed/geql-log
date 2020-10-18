@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -54,8 +54,8 @@ model User {
 
 model WorkspaceUser {
   id            Int        @id @default(autoincrement())
-  role          Role       @default(USER)
   userId        Int        @map(name: "user_id")
+  role          Role       @default(USER)
   user          User       @relation(fields: [userId], references: [id])
   workspaceId   Int        @map(name: "workspace_id")
   workspace     Workspace  @relation(fields: [workspaceId], references: [id])

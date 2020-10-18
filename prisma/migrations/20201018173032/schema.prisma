@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -54,7 +54,7 @@ model User {
 
 model WorkspaceUser {
   id            Int        @id @default(autoincrement())
-  role          WorkspaceUserRole       @default(USER)
+  role          Role       @default(USER)
   userId        Int        @map(name: "user_id")
   user          User       @relation(fields: [userId], references: [id])
   workspaceId   Int        @map(name: "workspace_id")
@@ -87,7 +87,7 @@ model ProjectSetup {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
 }
 
-enum WorkspaceUserRole {
+enum Role {
   USER
   ADMIN
 }

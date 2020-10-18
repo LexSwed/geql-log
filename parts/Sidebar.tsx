@@ -19,8 +19,6 @@ import {
 import Add from '@spectrum-icons/workflow/Add'
 import { WorkspaceUser } from '@prisma/client'
 import User from '@spectrum-icons/workflow/User'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
 
 type UIWorkspace = {
   id: number
@@ -29,13 +27,9 @@ type UIWorkspace = {
     name: string
   }
 }
-type Props = {
-  workspaces: UIWorkspace[]
-}
 
-const Sidebar: React.FC<Props> = ({ workspaces = [] }) => {
-  const [workspacesCopy, setMoreWorkspaces] = useState(workspaces)
-
+const Sidebar: React.FC = () => {
+  const workspaces = []
   return (
     <View elementType="aside" paddingX="size-200" padding="size-150">
       <DialogTrigger defaultOpen={workspaces.length === 0}>
@@ -43,14 +37,9 @@ const Sidebar: React.FC<Props> = ({ workspaces = [] }) => {
           <Add />
           <Text>Create new workspace</Text>
         </ActionButton>
-        {(close) => (
-          <CreateWorkspaceDialog
-            close={close}
-            onCreate={(newWorkspace) => setMoreWorkspaces((workspaces) => [...workspaces, newWorkspace])}
-          />
-        )}
+        {(close) => <CreateWorkspaceDialog close={close} />}
       </DialogTrigger>
-      {workspacesCopy.length > 0 ? (
+      {workspaces.length > 0 ? (
         <ListBox
           selectionMode="single"
           selectedKeys={['']}
@@ -60,7 +49,7 @@ const Sidebar: React.FC<Props> = ({ workspaces = [] }) => {
           aria-label="Workspaces"
         >
           <Section title="Workspaces">
-            {workspacesCopy.map((w) => (
+            {workspaces.map((w) => (
               <Item textValue={w.workspace.name} key={w.id}>
                 <Text>{w.workspace.name}</Text>
                 <Text slot="description">
@@ -82,18 +71,12 @@ export default Sidebar
 
 type DialogProps = {
   close: () => void
-  onCreate: (newWorkspace: UIWorkspace) => void
 }
-function CreateWorkspaceDialog({ close, onCreate }: DialogProps) {
+function CreateWorkspaceDialog({ close }) {
   const [name, setName] = useState('')
 
   const handleCreate = async (e: React.FormEvent<Element>) => {
     e.preventDefault()
-    const userWorkspace = await fetch('/api/workspace', {
-      method: 'post',
-      body: JSON.stringify({ name }),
-    }).then((res) => res.json())
-    onCreate(userWorkspace)
     close()
   }
 

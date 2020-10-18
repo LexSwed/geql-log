@@ -1,30 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+# GeQL Log
 
-## Getting Started
+<sub>Reads as "Jekyll Log"</sub>
 
-First, run the development server:
+Application code for GraphQL API monitoring.
+
+## Tech that makes this possible:
+
+- Main engine: [Next.js by Vercel](https://nextjs.org/)
+- Database toolkit: [Prisma](https://www.prisma.io/)
+- GraphQL server and client handlers: [Apollo GraphQL](https://www.apollographql.com/docs/)
+- Code first GraphQL schemas: [GraphQL Nexus](https://nexusjs.org/)
+- Passwordless Auth: [NextAuth.js](https://next-auth.js.org/)
+- Accessible Design System: [React Sectrum Libraries](https://react-spectrum.adobe.com/index.html)
+- ofc `React`, `TypeScript`, etc
+
+## Development
+
+Make sure you have all dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
+yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+cp .env.copy .env
+```
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Fill in environment variables in `.env`.
 
-## Learn More
+### Database
 
-To learn more about Next.js, take a look at the following resources:
+`prisma` connects to the PostgreSQL database, so make sure you have it running, available through `DATABASE_URL` in `.env`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### To use database via [`Docker`](https://hub.docker.com/_/postgres))
 
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!
+Start
 
-## Deploy on Vercel
+```bash
+docker-compose up --detach
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Start the development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+You can start the development just by running simple script included in the repo:
+
+```bash
+./start.sh
+```
+
+It will load environment variables from `.env` file (for `prisma` and `next-auth`), run migrations to database and start two parallel processes: `prisma generate --watch` and `next dev`. Former is used if you intend to make changes to `prisma/schema.prisma` file, it will automatically regenerate the `@prisma/client`. Later spins up `Next.js` dev server.
+
+If you make changes to `prisma/schema.prisma` file, make sure your database has those updates. Use `yarn prisma:migrate` for prisma to create a migration for your database.
+
+If you don't need to work with `schema.prisma`, just comment out a line in `start.sh` with `npx npm-run-all` and add `yarn run dev` below. Make sure you don't commit these changes.

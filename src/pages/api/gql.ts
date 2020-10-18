@@ -1,8 +1,8 @@
 import { ApolloServer } from 'apollo-server-micro'
 import { NextApiHandler } from 'next'
 import { getSession } from 'next-auth/client'
-import { schema } from '../../schema'
-import { createContext } from '../../schema/context'
+import { schema } from '../../../schema'
+import { createContext } from '../../../schema/context'
 
 const server = new ApolloServer({
   schema,

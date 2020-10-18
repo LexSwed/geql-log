@@ -2,8 +2,12 @@ import Head from 'next/head'
 import { SSRProvider, Provider, defaultTheme } from '@adobe/react-spectrum'
 import { Provider as AuthProvider } from 'next-auth/client'
 import { AppProps } from 'next/app'
+import { ApolloProvider } from '@apollo/client'
+import { useApollo } from '../apollo'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const apolloClient = useApollo(pageProps.initialApolloState)
+
   return (
     <>
       <Head>
@@ -11,9 +15,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <SSRProvider>
         <Provider theme={defaultTheme}>
-          <AuthProvider session={pageProps.session}>
-            <Component {...pageProps} />
-          </AuthProvider>
+          <ApolloProvider client={apolloClient}>
+            <AuthProvider session={pageProps.session}>
+              <Component {...pageProps} />
+            </AuthProvider>
+          </ApolloProvider>
         </Provider>
       </SSRProvider>
       <style global jsx>

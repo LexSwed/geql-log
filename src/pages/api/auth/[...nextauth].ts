@@ -3,7 +3,7 @@ import Providers from 'next-auth/providers'
 import Adapters from 'next-auth/adapters'
 import { NextApiHandler } from 'next'
 
-import { prisma } from '../../../prisma'
+import { prisma } from '../../../../prisma'
 
 const options = {
   providers: [

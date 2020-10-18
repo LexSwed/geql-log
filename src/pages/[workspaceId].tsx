@@ -3,7 +3,7 @@ import { ActionButton, Flex, View, Grid } from '@adobe/react-spectrum'
 import Head from 'next/head'
 import { getSession, signIn, useSession } from 'next-auth/client'
 import Sidebar from '../parts/Sidebar'
-import { prisma } from '../prisma'
+import { prisma } from '../../prisma'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
 const head = (

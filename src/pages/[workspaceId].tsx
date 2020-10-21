@@ -5,6 +5,7 @@ import { getSession, signIn, useSession } from 'next-auth/client'
 import Sidebar from '../parts/Sidebar'
 import { prisma } from '../../prisma'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { useRouter } from 'next/router'
 
 const head = (
   <Head>
@@ -14,9 +15,9 @@ const head = (
 )
 
 const Workspace = () => {
-  const workspace = {
-    name: '',
-  }
+  const router = useRouter()
+  console.log(router.query)
+
   return (
     <>
       {head}
@@ -24,7 +25,7 @@ const Workspace = () => {
         <View gridArea="sidebar" borderEndWidth="thin" borderColor="gray-300">
           <Sidebar />
         </View>
-        <View gridArea="content">{workspace?.name || 'None of the workspaces selected'}</View>
+        <View gridArea="content">{/* <div>{router.query}</div> */}</View>
       </Grid>
     </>
   )

@@ -1,7 +1,9 @@
 import Head from 'next/head'
-import { useSession } from 'next-auth/client'
-import SignIn from '../parts/SignIn'
-import Workspace from './[workspaceId]'
+import { getSession } from 'next-auth/client'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import Router from 'next/router'
+import { prisma } from '../../prisma'
+import { useEffect } from 'react'
 
 const head = (
   <Head>
@@ -10,18 +12,45 @@ const head = (
   </Head>
 )
 
-const Home = () => {
-  const [session, loading] = useSession()
+type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 
-  if (loading) {
-    return head
-  }
+const Home: React.FC<Props> = ({ workspaceId }) => {
+  useEffect(() => {
+    if (workspaceId) {
+      Router.push(`/${workspaceId}`)
+    } else {
+      Router.push('/signin')
+    }
+  }, [])
 
-  if (!session) {
-    return <SignIn />
-  }
-
-  return <Workspace />
+  return null
 }
 
 export default Home
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req })
+  if (session?.user?.email) {
+    const { id: workspaceId } = await prisma.workspaceUser.findFirst({
+      where: {
+        user: {
+          email: session.user.email,
+        },
+      },
+      select: {
+        id: true,
+      },
+    })
+    return {
+      props: {
+        workspaceId,
+      },
+    }
+  }
+
+  return {
+    props: {
+      workspaceId: null,
+    },
+  }
+}

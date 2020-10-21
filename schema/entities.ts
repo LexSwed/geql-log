@@ -13,6 +13,23 @@ export const Workspace = objectType({
     t.model.id()
     t.model.name()
     t.model.image()
+    t.connectionField('projects', {
+      type: 'WorkspaceProject',
+      totalCount: (root, args, { prisma }) => {
+        return prisma.project.count({
+          where: {
+            workspaceId: root.id,
+          },
+        })
+      },
+      nodes: (root, args, { prisma }) => {
+        return prisma.project.findMany({
+          where: {
+            workspaceId: root.id,
+          },
+        })
+      },
+    })
   },
 })
 
@@ -23,6 +40,24 @@ export const WorkspaceUser = objectType({
     t.model.role()
     t.model.user()
     t.model.workspace()
+  },
+})
+
+export const ProjectSetup = objectType({
+  name: 'WorkspaceProjectSetup',
+  definition(t) {
+    t.model('ProjectSetup').id()
+    t.model('ProjectSetup').active()
+  },
+})
+
+export const Project = objectType({
+  name: 'WorkspaceProject',
+  definition(t) {
+    t.model('Project').id()
+    t.model('Project').name()
+    t.model('Project').Workspace({ alias: 'workspace' })
+    t.model('Project').setup({ type: 'WorkspaceProjectSetup' })
   },
 })
 

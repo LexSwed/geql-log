@@ -8,11 +8,12 @@
     "start": "next start",
     "prisma:watch": "yarn prisma generate --watch",
     "prisma:migrate": "prisma migrate save --experimental && prisma migrate up --experimental",
-    "lint": "eslint pages --fix"
+    "lint": "eslint pages --fix",
+    "gql:codegen": "graphql-codegen --watch --config codegen.yml"
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.4.0",
-    "@apollo/client": "^3.2.4",
+    "@apollo/client": "^3.2.5",
     "@nexus/schema": "^0.16.0",
     "@prisma/client": "2.9.0",
     "@spectrum-icons/workflow": "^3.2.0",
@@ -24,17 +25,22 @@
     "next-compose-plugins": "^2.2.0",
     "next-transpile-modules": "^4.1.0",
     "nexus-plugin-prisma": "^0.22.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "react": "17.0.0",
+    "react-dom": "17.0.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "1.18.0",
     "@prisma/cli": "2.9.0",
-    "@types/next-auth": "^3.1.13",
-    "@types/node": "^14.11.10",
+    "@types/next-auth": "^3.1.14",
+    "@types/node": "^14.14.1",
     "@types/react": "^16.9.53",
     "eslint-config-react-app": "^6.0.0-next.98",
     "prettier": "^2.1.2",
     "typescript": "^4.0.3",
-    "vercel": "^20.1.2"
+    "vercel": "^20.1.2",
+    "@graphql-codegen/typescript": "1.17.11",
+    "@graphql-codegen/typescript-operations": "1.17.8",
+    "@graphql-codegen/typescript-react-apollo": "2.0.7",
+    "@graphql-codegen/introspection": "1.18.0"
   }
 }

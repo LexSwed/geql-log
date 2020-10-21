@@ -61,6 +61,23 @@ export interface NexusGenRootTypes {
     image?: string | null; // String
     name?: string | null; // String
   }
+  WorkspaceProject: { // root type
+    id: number; // Int!
+    name?: string | null; // String
+  }
+  WorkspaceProjectConnection: { // root type
+    edges?: Array<NexusGenRootTypes['WorkspaceProjectEdge'] | null> | null; // [WorkspaceProjectEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount?: number | null; // Int
+  }
+  WorkspaceProjectEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['WorkspaceProject'] | null; // WorkspaceProject
+  }
+  WorkspaceProjectSetup: { // root type
+    active: boolean; // Boolean!
+    id: number; // Int!
+  }
   WorkspaceUser: { // root type
     id: number; // Int!
     role: NexusGenEnums['WorkspaceUserRole']; // WorkspaceUserRole!
@@ -111,6 +128,26 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     image: string | null; // String
     name: string | null; // String
+    projects: NexusGenRootTypes['WorkspaceProjectConnection'] | null; // WorkspaceProjectConnection
+  }
+  WorkspaceProject: { // field return type
+    id: number; // Int!
+    name: string | null; // String
+    setup: NexusGenRootTypes['WorkspaceProjectSetup'] | null; // WorkspaceProjectSetup
+    workspace: NexusGenRootTypes['Workspace'] | null; // Workspace
+  }
+  WorkspaceProjectConnection: { // field return type
+    edges: Array<NexusGenRootTypes['WorkspaceProjectEdge'] | null> | null; // [WorkspaceProjectEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  WorkspaceProjectEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['WorkspaceProject'] | null; // WorkspaceProject
+  }
+  WorkspaceProjectSetup: { // field return type
+    active: boolean; // Boolean!
+    id: number; // Int!
   }
   WorkspaceUser: { // field return type
     id: number; // Int!
@@ -151,6 +188,14 @@ export interface NexusGenArgTypes {
       last?: number | null; // Int
     }
   }
+  Workspace: {
+    projects: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+  }
 }
 
 export interface NexusGenAbstractResolveReturnTypes {
@@ -158,7 +203,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Mutation" | "PageInfo" | "Query" | "User" | "Workspace" | "WorkspaceUser" | "WorkspaceUserConnection" | "WorkspaceUserEdge";
+export type NexusGenObjectNames = "Mutation" | "PageInfo" | "Query" | "User" | "Workspace" | "WorkspaceProject" | "WorkspaceProjectConnection" | "WorkspaceProjectEdge" | "WorkspaceProjectSetup" | "WorkspaceUser" | "WorkspaceUserConnection" | "WorkspaceUserEdge";
 
 export type NexusGenInputNames = never;
 

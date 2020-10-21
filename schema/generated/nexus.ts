@@ -3,10 +3,17 @@
  * Do not make changes to this file directly
  */
 
-import * as Context from "./schema/context"
+import * as Context from "../context"
+import { core, connectionPluginCore } from "@nexus/schema"
 
-
-
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    connectionField<FieldName extends string>(
+            fieldName: FieldName, 
+            config: connectionPluginCore.ConnectionFieldConfig<TypeName, FieldName>  & { totalCount: core.SubFieldResolver<TypeName, FieldName, "totalCount"> }
+          ): void
+  }
+}
 declare global {
   interface NexusGenCustomOutputProperties<TypeName extends string> {
     crud: NexusPrisma<TypeName, 'crud'>
@@ -19,13 +26,11 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  WorkspaceUserWhereUniqueInput: { // input type
-    id?: number | null; // Int
-  }
 }
 
 export interface NexusGenEnums {
   Role: "ADMIN" | "USER"
+  WorkspaceUserRole: "ADMIN" | "USER"
 }
 
 export interface NexusGenScalars {
@@ -38,6 +43,12 @@ export interface NexusGenScalars {
 
 export interface NexusGenRootTypes {
   Mutation: {};
+  PageInfo: { // root type
+    endCursor?: string | null; // String
+    hasNextPage: boolean; // Boolean!
+    hasPreviousPage: boolean; // Boolean!
+    startCursor?: string | null; // String
+  }
   Query: {};
   User: { // root type
     email?: string | null; // String
@@ -52,13 +63,22 @@ export interface NexusGenRootTypes {
   }
   WorkspaceUser: { // root type
     id: number; // Int!
-    role: NexusGenEnums['Role']; // Role!
+    role: NexusGenEnums['WorkspaceUserRole']; // WorkspaceUserRole!
+  }
+  WorkspaceUserConnection: { // root type
+    edges?: Array<NexusGenRootTypes['WorkspaceUserEdge'] | null> | null; // [WorkspaceUserEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount?: number | null; // Int
+  }
+  WorkspaceUserEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['WorkspaceUser'] | null; // WorkspaceUser
   }
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
-  WorkspaceUserWhereUniqueInput: NexusGenInputs['WorkspaceUserWhereUniqueInput'];
   Role: NexusGenEnums['Role'];
+  WorkspaceUserRole: NexusGenEnums['WorkspaceUserRole'];
   String: NexusGenScalars['String'];
   Int: NexusGenScalars['Int'];
   Float: NexusGenScalars['Float'];
@@ -70,15 +90,22 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createWorkspace: NexusGenRootTypes['WorkspaceUser']; // WorkspaceUser!
   }
+  PageInfo: { // field return type
+    endCursor: string | null; // String
+    hasNextPage: boolean; // Boolean!
+    hasPreviousPage: boolean; // Boolean!
+    startCursor: string | null; // String
+  }
   Query: { // field return type
     me: NexusGenRootTypes['User'] | null; // User
+    workspaces: NexusGenRootTypes['WorkspaceUserConnection'] | null; // WorkspaceUserConnection
   }
   User: { // field return type
     email: string | null; // String
     id: number; // Int!
     image: string | null; // String
     name: string | null; // String
-    workspaces: NexusGenRootTypes['WorkspaceUser'][]; // [WorkspaceUser!]!
+    workspaces: NexusGenRootTypes['WorkspaceUserConnection'] | null; // WorkspaceUserConnection
   }
   Workspace: { // field return type
     id: number; // Int!
@@ -87,9 +114,18 @@ export interface NexusGenFieldTypes {
   }
   WorkspaceUser: { // field return type
     id: number; // Int!
-    role: NexusGenEnums['Role']; // Role!
+    role: NexusGenEnums['WorkspaceUserRole']; // WorkspaceUserRole!
     user: NexusGenRootTypes['User']; // User!
     workspace: NexusGenRootTypes['Workspace']; // Workspace!
+  }
+  WorkspaceUserConnection: { // field return type
+    edges: Array<NexusGenRootTypes['WorkspaceUserEdge'] | null> | null; // [WorkspaceUserEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  WorkspaceUserEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['WorkspaceUser'] | null; // WorkspaceUser
   }
 }
 
@@ -99,10 +135,18 @@ export interface NexusGenArgTypes {
       name: string; // String!
     }
   }
+  Query: {
+    workspaces: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+  }
   User: {
     workspaces: { // args
-      after?: NexusGenInputs['WorkspaceUserWhereUniqueInput'] | null; // WorkspaceUserWhereUniqueInput
-      before?: NexusGenInputs['WorkspaceUserWhereUniqueInput'] | null; // WorkspaceUserWhereUniqueInput
+      after?: string | null; // String
+      before?: string | null; // String
       first?: number | null; // Int
       last?: number | null; // Int
     }
@@ -114,11 +158,11 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Mutation" | "Query" | "User" | "Workspace" | "WorkspaceUser";
+export type NexusGenObjectNames = "Mutation" | "PageInfo" | "Query" | "User" | "Workspace" | "WorkspaceUser" | "WorkspaceUserConnection" | "WorkspaceUserEdge";
 
-export type NexusGenInputNames = "WorkspaceUserWhereUniqueInput";
+export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = "Role";
+export type NexusGenEnumNames = "Role" | "WorkspaceUserRole";
 
 export type NexusGenInterfaceNames = never;
 
@@ -152,6 +196,7 @@ declare global {
   interface NexusGenPluginTypeConfig<TypeName extends string> {
   }
   interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
+    
   }
   interface NexusGenPluginSchemaConfig {
   }

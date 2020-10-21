@@ -1,0 +1,23 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateEnum",
+      "enum": "WorkspaceUserRole",
+      "values": [
+        "USER",
+        "ADMIN"
+      ]
+    },
+    {
+      "tag": "DeleteEnum",
+      "enum": "Role"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "WorkspaceUser",
+      "field": "role",
+      "type": "WorkspaceUserRole"
+    }
+  ]
+}

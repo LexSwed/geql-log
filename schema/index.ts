@@ -1,4 +1,4 @@
-import { makeSchema } from '@nexus/schema'
+import { makeSchema, connectionPlugin } from '@nexus/schema'
 import { nexusSchemaPrisma } from 'nexus-plugin-prisma/schema'
 import path from 'path'
 import * as entities from './entities'
@@ -7,10 +7,17 @@ import { Query } from './query'
 
 export const schema = makeSchema({
   types: { Query, Mutation, ...entities },
-  plugins: [nexusSchemaPrisma({ experimentalCRUD: true })],
+  plugins: [
+    nexusSchemaPrisma({ experimentalCRUD: true }),
+    connectionPlugin({
+      extendConnection: {
+        totalCount: { type: 'Int' },
+      },
+    }),
+  ],
   outputs: {
-    schema: path.join(process.cwd(), 'schema.graphql'),
-    typegen: path.join(process.cwd(), 'nexus.ts'),
+    schema: path.join(process.cwd(), 'schema/generated/schema.graphql'),
+    typegen: path.join(process.cwd(), 'schema/generated/nexus.ts'),
   },
   typegenAutoConfig: {
     contextType: 'Context.Context',
@@ -20,7 +27,7 @@ export const schema = makeSchema({
         alias: 'prisma',
       },
       {
-        source: require.resolve('./context'),
+        source: path.join(process.cwd(), 'schema/context.ts'),
         alias: 'Context',
       },
     ],

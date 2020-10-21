@@ -33,6 +33,26 @@ export const User = objectType({
     t.model.name()
     t.model.email()
     t.model.image()
-    t.model.workspaces()
+    t.connectionField('workspaces', {
+      type: 'WorkspaceUser',
+      totalCount: (root, args, { prisma, session }) => {
+        return prisma.workspaceUser.count({
+          where: {
+            user: {
+              email: session?.user?.email,
+            },
+          },
+        })
+      },
+      nodes: async (root, args, { prisma, session }) => {
+        return prisma.workspaceUser.findMany({
+          where: {
+            user: {
+              email: session?.user?.email,
+            },
+          },
+        })
+      },
+    })
   },
 })

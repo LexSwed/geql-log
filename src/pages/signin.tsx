@@ -1,8 +1,8 @@
 import { signIn, useSession } from 'next-auth/client'
 import React from 'react'
-import { ActionButton, Flex, View } from '@adobe/react-spectrum'
 import Head from 'next/head'
 import Router from 'next/router'
+import { Box, Flex, Button } from '@fxtrot/ui'
 
 const SignIn = () => {
   const [session] = useSession()
@@ -16,11 +16,9 @@ const SignIn = () => {
       <Head>
         <title>Geql - Sign In</title>
       </Head>
-      <View minHeight="100vh" minWidth="100vw">
-        <Flex height="100vh" alignItems="center" justifyContent="center">
-          <ActionButton onPress={() => signIn('github')}>Connect</ActionButton>
-        </Flex>
-      </View>
+      <Flex as={Box} main="center" cross="center" minHeight="100vh" minWidth="100vw">
+        <Button onClick={() => signIn('github')}>Connect</Button>
+      </Flex>
     </>
   )
 }

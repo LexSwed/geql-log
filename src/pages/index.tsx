@@ -19,7 +19,7 @@ const Home: React.FC<Props> = ({ workspaceId }) => {
     if (workspaceId) {
       Router.push(`/${workspaceId}`)
     } else {
-      Router.push('/signin')
+      Router.push('/new')
     }
   }, [])
 
@@ -31,7 +31,7 @@ export default Home
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const session = await getSession({ req })
   if (session?.user?.email) {
-    const { id: workspaceId } = await prisma.workspaceUser.findFirst({
+    const res = await prisma.workspaceUser.findFirst({
       where: {
         user: {
           email: session.user.email,
@@ -42,9 +42,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       },
     })
     return {
-      props: {
-        workspaceId,
-      },
+      props: res
+        ? {
+            workspaceId: res?.id,
+          }
+        : {},
     }
   }
 

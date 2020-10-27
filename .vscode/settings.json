@@ -1,3 +1,5 @@
 {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prisma.plugin.nextjs.addTypesOnSave": true,
+    "prisma.plugin.nextjs.hasPrompted": true
 }

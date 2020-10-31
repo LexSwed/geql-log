@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Router from 'next/router'
 import { Box, Flex, Button } from '@fxtrot/ui'
 
-const SignIn = () => {
+const SignIn = (props) => {
   const [session] = useSession()
 
   if (session) {
@@ -16,7 +16,7 @@ const SignIn = () => {
       <Head>
         <title>Geql - Sign In</title>
       </Head>
-      <Flex as={Box} main="center" cross="center" minHeight="100vh" minWidth="100vw">
+      <Flex main="center" cross="center" minHeight="100vh" minWidth="100vw">
         <Button onClick={() => signIn('github')}>Connect</Button>
       </Flex>
     </>

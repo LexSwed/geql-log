@@ -44,7 +44,7 @@ export const Sidebar: React.FC = () => {
 
   return (
     <Box as="aside" height="100%">
-      <Flex as={Box} height="100%" main="spread">
+      <Flex height="100%" main="spread">
         {workspaces.length > 0 ? (
           <Box p="$8">
             {workspaces.map(({ node }, i) => {

@@ -10,7 +10,11 @@ const CreateWorkspace: React.FC<{ defaultOpen: boolean }> = ({ defaultOpen }) =>
           <Icon as={HiOutlinePlus} />
           <span>Create new workspace</span>
         </Button>
-        {(close) => <CreateWorkspaceDialog close={close} />}
+        {(close) => (
+          <Dialog.Modal>
+            <CreateWorkspaceForm title="Create new workspace" onCreate={close} />
+          </Dialog.Modal>
+        )}
       </Dialog.Trigger>
     </Box>
   )
@@ -18,23 +22,24 @@ const CreateWorkspace: React.FC<{ defaultOpen: boolean }> = ({ defaultOpen }) =>
 
 export default CreateWorkspace
 
-type DialogProps = {
-  close: () => void
+interface FormProps {
+  onCreate: () => void
+  title: string
 }
-function CreateWorkspaceDialog({ close }: DialogProps) {
+export function CreateWorkspaceForm({ onCreate, title }: FormProps) {
   const [name, setName] = useState('')
 
   const handleCreate = async (e: React.FormEvent<Element>) => {
     e.preventDefault()
-    close()
+    onCreate()
   }
 
   return (
-    <Dialog.Modal>
-      <Heading>Create new workspace</Heading>
+    <>
+      <Heading>{title}</Heading>
       <Box>
         <Flex space="$6">
-          <Text>Create a new workspace where you can setup your GraphQL monitoring</Text>
+          <Text size="sm">Create a new workspace where you can setup your GraphQL monitoring</Text>
           <Box as="form" width="100%" onSubmit={handleCreate}>
             <TextField
               required
@@ -47,12 +52,13 @@ function CreateWorkspaceDialog({ close }: DialogProps) {
               autoComplete="organization"
             />
             <Box pb="$8" />
-            <Flex flow="row" main="end">
+            <Flex flow="row-reverse" main="spread" space="sm">
               <Button type="submit">Confirm</Button>
+              <Button variant="outline">Join existing workspace</Button>
             </Flex>
           </Box>
         </Flex>
       </Box>
-    </Dialog.Modal>
+    </>
   )
 }

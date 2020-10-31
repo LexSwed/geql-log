@@ -10,7 +10,7 @@ declare global {
   interface NexusGenCustomOutputMethods<TypeName extends string> {
     connectionField<FieldName extends string>(
             fieldName: FieldName, 
-            config: connectionPluginCore.ConnectionFieldConfig<TypeName, FieldName>  & { totalCount: core.SubFieldResolver<TypeName, FieldName, "totalCount"> }
+            config: connectionPluginCore.ConnectionFieldConfig<TypeName, FieldName>  & { totalCount: core.FieldResolver<core.FieldTypeName<TypeName, FieldName>, "totalCount"> }
           ): void
   }
 }
@@ -68,7 +68,6 @@ export interface NexusGenRootTypes {
   WorkspaceProjectConnection: { // root type
     edges?: Array<NexusGenRootTypes['WorkspaceProjectEdge'] | null> | null; // [WorkspaceProjectEdge]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-    totalCount?: number | null; // Int
   }
   WorkspaceProjectEdge: { // root type
     cursor: string; // String!
@@ -85,7 +84,6 @@ export interface NexusGenRootTypes {
   WorkspaceUserConnection: { // root type
     edges?: Array<NexusGenRootTypes['WorkspaceUserEdge'] | null> | null; // [WorkspaceUserEdge]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-    totalCount?: number | null; // Int
   }
   WorkspaceUserEdge: { // root type
     cursor: string; // String!
@@ -166,6 +164,69 @@ export interface NexusGenFieldTypes {
   }
 }
 
+export interface NexusGenFieldTypeNames {
+  Mutation: { // field return type name
+    createWorkspace: 'WorkspaceUser'
+  }
+  PageInfo: { // field return type name
+    endCursor: 'String'
+    hasNextPage: 'Boolean'
+    hasPreviousPage: 'Boolean'
+    startCursor: 'String'
+  }
+  Query: { // field return type name
+    me: 'User'
+    workspaces: 'WorkspaceUserConnection'
+  }
+  User: { // field return type name
+    email: 'String'
+    id: 'Int'
+    image: 'String'
+    name: 'String'
+    workspaces: 'WorkspaceUserConnection'
+  }
+  Workspace: { // field return type name
+    id: 'Int'
+    image: 'String'
+    name: 'String'
+    projects: 'WorkspaceProjectConnection'
+  }
+  WorkspaceProject: { // field return type name
+    id: 'Int'
+    name: 'String'
+    setup: 'WorkspaceProjectSetup'
+    workspace: 'Workspace'
+  }
+  WorkspaceProjectConnection: { // field return type name
+    edges: 'WorkspaceProjectEdge'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  WorkspaceProjectEdge: { // field return type name
+    cursor: 'String'
+    node: 'WorkspaceProject'
+  }
+  WorkspaceProjectSetup: { // field return type name
+    active: 'Boolean'
+    id: 'Int'
+  }
+  WorkspaceUser: { // field return type name
+    id: 'Int'
+    role: 'WorkspaceUserRole'
+    user: 'User'
+    workspace: 'Workspace'
+  }
+  WorkspaceUserConnection: { // field return type name
+    edges: 'WorkspaceUserEdge'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  WorkspaceUserEdge: { // field return type name
+    cursor: 'String'
+    node: 'WorkspaceUser'
+  }
+}
+
 export interface NexusGenArgTypes {
   Mutation: {
     createWorkspace: { // args
@@ -221,6 +282,7 @@ export interface NexusGenTypes {
   rootTypes: NexusGenRootTypes;
   argTypes: NexusGenArgTypes;
   fieldTypes: NexusGenFieldTypes;
+  fieldTypeNames: NexusGenFieldTypeNames;
   allTypes: NexusGenAllTypes;
   inheritedFields: NexusGenInheritedFields;
   objectNames: NexusGenObjectNames;

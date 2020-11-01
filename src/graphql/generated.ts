@@ -146,6 +146,22 @@ export enum WorkspaceUserRole {
   Admin = 'ADMIN'
 }
 
+export type CreateWorkspaceMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type CreateWorkspaceMutation = (
+  { __typename?: 'Mutation' }
+  & { createWorkspace: (
+    { __typename?: 'WorkspaceUser' }
+    & { workspace: (
+      { __typename?: 'Workspace' }
+      & Pick<Workspace, 'id'>
+    ) }
+  ) }
+);
+
 export type GetWorkspacesQueryVariables = Exact<{ [key: string]: never; }>;
 
 

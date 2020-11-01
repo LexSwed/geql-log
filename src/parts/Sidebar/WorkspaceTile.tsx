@@ -1,12 +1,13 @@
 import React from 'react'
-import { Text, Box, Flex, Button, Heading } from '@fxtrot/ui'
+import { Text, Box, Flex, Button, Heading, Icon } from '@fxtrot/ui'
 import { Workspace } from '../../graphql/generated'
 import { useRouter } from 'next/router'
+import { HiOutlineChevronDown } from 'react-icons/hi'
 
 const WorkspaceTile: React.FC<{ isCurrent: boolean; name: Workspace['name'] }> = ({ isCurrent, name }) => {
   return (
-    <Flex gap="size-100" alignItems="center">
-      <Box borderRadius="large" width="size-700" height="size-700">
+    <Flex flow="row" space="sm" main="spread" cross="center">
+      <Box flexShrink={0} borderRadius="large" width="$12" height="$12">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           <path
             fill="#FF0066"
@@ -15,15 +16,22 @@ const WorkspaceTile: React.FC<{ isCurrent: boolean; name: Workspace['name'] }> =
           />
         </svg>
       </Box>
-      <Box>
-        <Box pl="$3">
+      <Flex as={Box} justifySelf="end" cross="end">
+        <Button variant="flat" cross="center" aria-label="Switch workspace">
           <Heading as="h3">{name}</Heading>
-        </Box>
+          <Icon as={HiOutlineChevronDown} size="sm" />
+        </Button>
 
-        <Box mt="$2">
-          {isCurrent ? <Button variant="flat">Settings</Button> : <Button variant="flat">Switch</Button>}
+        <Box>
+          {isCurrent ? (
+            <Button size="sm" variant="flat">
+              Settings
+            </Button>
+          ) : (
+            <Button variant="flat">Switch</Button>
+          )}
         </Box>
-      </Box>
+      </Flex>
     </Flex>
   )
 }

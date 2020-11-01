@@ -1182,10 +1182,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@fxtrot/ui@^1.0.56":
-  version "1.0.56"
-  resolved "https://registry.yarnpkg.com/@fxtrot/ui/-/ui-1.0.56.tgz#5be54e039e44e59d8e4193659afaf110ff362142"
-  integrity sha512-mvSIgpL+NPR+djJlzeezcxhXe7Jp5tdwO4cqdb4NS5p/r2upXgvUjel8Yne4D1sbazC2CTFZQmfsmw3qauZJhA==
+"@fxtrot/ui@^1.0.59":
+  version "1.0.59"
+  resolved "https://registry.yarnpkg.com/@fxtrot/ui/-/ui-1.0.59.tgz#db12429935ba9e125d5f1a4cac831b46f08fec7c"
+  integrity sha512-m3Msfuc/cLF41caq4bQ6jm+9QOtFFCRjoiAiJdWNoguyPAvxOH+etOTf+1Pkro5qKCVe0pm89AXO63t0xl2z1g==
   dependencies:
     "@popperjs/core" "^2.5.4"
     "@react-aria/focus" "^3.2.3"

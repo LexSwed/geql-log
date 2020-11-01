@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Box, Dialog, Heading, Text, TextField, Flex, Icon } from '@fxtrot/ui'
 import { HiOutlinePlus } from 'react-icons/hi'
+import { gql, useMutation } from '@apollo/client'
+import { CreateWorkspaceMutation, MutationCreateWorkspaceArgs } from '../../graphql/generated'
+import Router from 'next/router'
 
 const CreateWorkspace: React.FC<{ defaultOpen: boolean }> = ({ defaultOpen }) => {
   return (
@@ -22,16 +25,38 @@ const CreateWorkspace: React.FC<{ defaultOpen: boolean }> = ({ defaultOpen }) =>
 
 export default CreateWorkspace
 
+const createWorkspaceMutation = gql`
+  mutation createWorkspace($name: String!) {
+    createWorkspace(name: $name) {
+      workspace {
+        id
+      }
+    }
+  }
+`
+
 interface FormProps {
   onCreate: () => void
   title: string
 }
 export function CreateWorkspaceForm({ onCreate, title }: FormProps) {
   const [name, setName] = useState('')
+  const [createWorkspace, { error }] = useMutation<CreateWorkspaceMutation, MutationCreateWorkspaceArgs>(
+    createWorkspaceMutation,
+    {
+      variables: {
+        name,
+      },
+    }
+  )
 
   const handleCreate = async (e: React.FormEvent<Element>) => {
     e.preventDefault()
-    onCreate()
+    const { data } = await createWorkspace()
+    if (data?.createWorkspace?.workspace?.id) {
+      Router.push(`/${data?.createWorkspace?.workspace.id}`)
+      onCreate()
+    }
   }
 
   return (
@@ -50,6 +75,8 @@ export function CreateWorkspaceForm({ onCreate, title }: FormProps) {
               placeholder="Awesome Company"
               autoFocus
               autoComplete="organization"
+              validity={error ? 'invalid' : null}
+              hint={error ? error.message : null}
             />
             <Box pb="$8" />
             <Flex flow="row-reverse" main="spread" space="sm">

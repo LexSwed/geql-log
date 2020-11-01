@@ -11,17 +11,15 @@ const head = (
   </Head>
 )
 
-const Workspace = () => {
+const Workspace = (props) => {
   const router = useRouter()
 
   return (
     <>
       {head}
-      <Box display="grid" gridTemplateAreas={'sidebar content'} gridTemplateColumns={'300px 3fr'} height="100vh">
-        <Box gridArea="sidebar" borderRight="1px solid $borderStill">
-          <Sidebar />
-        </Box>
-        <Box gridArea="content">{/* <div>{router.query}</div> */}</Box>
+      <Box display="grid" gridTemplateColumns={'300px 3fr'} height="100vh">
+        <Sidebar />
+        <Box>{/* <div>{router.query}</div> */}</Box>
       </Box>
     </>
   )

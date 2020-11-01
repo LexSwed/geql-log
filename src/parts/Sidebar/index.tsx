@@ -43,20 +43,20 @@ export const Sidebar: React.FC = () => {
   const workspaces = data?.workspaces?.edges
 
   return (
-    <Box as="aside" height="100%">
-      <Flex height="100%" main="spread">
+    <Box borderRight="1px solid $borderStill" as="aside" height="100%">
+      <Flex height="100%" main="spread" cross="stretch">
         {workspaces.length > 0 ? (
           <Box p="$8">
             {workspaces.map(({ node }, i) => {
               const isCurrent = node.workspace.id === workspaceId
               return (
-                <React.Fragment key={node.id}>
-                  <Box br="$md" p="$8">
+                <Flex space="md" cross="stretch" key={node.id}>
+                  <Box br="$md">
                     <WorkspaceTile isCurrent={isCurrent} name={node.workspace.name} />
                   </Box>
                   {isCurrent ? <Projects /> : null}
                   {i !== workspaces.length - 1 ? <Box width="100%" borderBottom="1px solid $borderStill" /> : null}
-                </React.Fragment>
+                </Flex>
               )
             })}
           </Box>

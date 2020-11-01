@@ -4,9 +4,9 @@ import { CreateWorkspaceForm } from '../parts/Sidebar/CreateWorkspace'
 
 const New = (props) => {
   return (
-    <Flex main="center" cross="center" width="100vw" height="100vh" bc="$grey050">
-      <Box>
-        <CreateWorkspaceForm title="Join workspace" onCreate={() => {}} />
+    <Flex main="center" cross="center" as={Box} width="100vw" height="100vh" bc="$gray050">
+      <Box p="$12" bc="#fff" br="$md">
+        <CreateWorkspaceForm title="" onCreate={() => {}} />
       </Box>
     </Flex>
   )

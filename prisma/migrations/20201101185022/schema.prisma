@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -76,7 +76,7 @@ model Workspace {
 model Project {
   id            Int       @id @default(autoincrement())
   name          String
-  stats         ProjectStats?
+  stats         ProjectStats
   setup         ProjectSetup?
 }
 

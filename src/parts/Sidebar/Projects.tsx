@@ -1,11 +1,26 @@
 import { MenuList, Section } from '@fxtrot/ui'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { ListWorkspaceProjectsQuery } from '../../graphql/generated'
 
-const Projects = () => {
+const Projects: React.FC<{
+  projects: ListWorkspaceProjectsQuery['userWorkspace']['workspace']['projects']['edges']
+}> = ({ projects }) => {
+  const [selectedId, setSelected] = useState<number>(null)
+
+  useEffect(() => {
+    if (!selectedId && projects?.length > 0) {
+      setSelected(projects[0].node.id)
+    }
+  }, [])
+
   return (
     <MenuList>
       <Section title="Schemas">
-        <MenuList.Item selected>Project 1</MenuList.Item>
+        {projects.map((p) => (
+          <MenuList.Item key={p.node.id} selected={p.node.id === selectedId}>
+            {p.node.name}
+          </MenuList.Item>
+        ))}
       </Section>
     </MenuList>
   )

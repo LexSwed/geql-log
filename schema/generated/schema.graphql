@@ -34,7 +34,8 @@ type PageInfo {
 
 type Query {
   me: User
-  workspaces(
+  userWorkspace(workspaceId: Int!): WorkspaceUser
+  userWorkspaces(
     """Returns the elements in the list that come after the specified cursor"""
     after: String
 

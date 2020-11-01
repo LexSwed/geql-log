@@ -4,7 +4,7 @@ import { Workspace } from '../../graphql/generated'
 import { useRouter } from 'next/router'
 import { HiOutlineChevronDown } from 'react-icons/hi'
 
-const WorkspaceTile: React.FC<{ isCurrent: boolean; name: Workspace['name'] }> = ({ isCurrent, name }) => {
+const WorkspaceTile: React.FC<{ name: Workspace['name'] }> = ({ name }) => {
   return (
     <Flex flow="row" space="sm" main="spread" cross="center">
       <Box flexShrink={0} borderRadius="large" width="$12" height="$12">
@@ -23,13 +23,9 @@ const WorkspaceTile: React.FC<{ isCurrent: boolean; name: Workspace['name'] }> =
         </Button>
 
         <Box>
-          {isCurrent ? (
-            <Button size="sm" variant="flat">
-              Settings
-            </Button>
-          ) : (
-            <Button variant="flat">Switch</Button>
-          )}
+          <Button size="sm" variant="flat">
+            Settings
+          </Button>
         </Box>
       </Flex>
     </Flex>

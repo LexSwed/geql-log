@@ -113,7 +113,8 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     me: NexusGenRootTypes['User'] | null; // User
-    workspaces: NexusGenRootTypes['WorkspaceUserConnection'] | null; // WorkspaceUserConnection
+    userWorkspace: NexusGenRootTypes['WorkspaceUser'] | null; // WorkspaceUser
+    userWorkspaces: NexusGenRootTypes['WorkspaceUserConnection'] | null; // WorkspaceUserConnection
   }
   User: { // field return type
     email: string | null; // String
@@ -176,7 +177,8 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     me: 'User'
-    workspaces: 'WorkspaceUserConnection'
+    userWorkspace: 'WorkspaceUser'
+    userWorkspaces: 'WorkspaceUserConnection'
   }
   User: { // field return type name
     email: 'String'
@@ -234,7 +236,10 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
-    workspaces: { // args
+    userWorkspace: { // args
+      workspaceId: number; // Int!
+    }
+    userWorkspaces: { // args
       after?: string | null; // String
       before?: string | null; // String
       first?: number | null; // Int

@@ -21,6 +21,11 @@ export const Mutation = mutationType({
             workspace: {
               create: {
                 name,
+                projects: {
+                  create: {
+                    name: 'Development',
+                  },
+                },
               },
             },
           },

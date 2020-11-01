@@ -12,11 +12,17 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
-  workspaces?: Maybe<WorkspaceUserConnection>;
+  userWorkspace?: Maybe<WorkspaceUser>;
+  userWorkspaces?: Maybe<WorkspaceUserConnection>;
 };
 
 
-export type QueryWorkspacesArgs = {
+export type QueryUserWorkspaceArgs = {
+  workspaceId: Scalars['Int'];
+};
+
+
+export type QueryUserWorkspacesArgs = {
   first?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
   last?: Maybe<Scalars['Int']>;
@@ -162,34 +168,29 @@ export type CreateWorkspaceMutation = (
   ) }
 );
 
-export type GetWorkspacesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ListWorkspaceProjectsQueryVariables = Exact<{
+  workspaceId: Scalars['Int'];
+}>;
 
 
-export type GetWorkspacesQuery = (
+export type ListWorkspaceProjectsQuery = (
   { __typename?: 'Query' }
-  & { workspaces?: Maybe<(
-    { __typename?: 'WorkspaceUserConnection' }
-    & { edges?: Maybe<Array<Maybe<(
-      { __typename?: 'WorkspaceUserEdge' }
-      & Pick<WorkspaceUserEdge, 'cursor'>
-      & { node?: Maybe<(
-        { __typename?: 'WorkspaceUser' }
-        & Pick<WorkspaceUser, 'id'>
-        & { workspace: (
-          { __typename?: 'Workspace' }
-          & Pick<Workspace, 'id' | 'name'>
-          & { projects?: Maybe<(
-            { __typename?: 'WorkspaceProjectConnection' }
-            & { edges?: Maybe<Array<Maybe<(
-              { __typename?: 'WorkspaceProjectEdge' }
-              & { node?: Maybe<(
-                { __typename?: 'WorkspaceProject' }
-                & Pick<WorkspaceProject, 'id' | 'name'>
-              )> }
-            )>>> }
+  & { userWorkspace?: Maybe<(
+    { __typename?: 'WorkspaceUser' }
+    & { workspace: (
+      { __typename?: 'Workspace' }
+      & Pick<Workspace, 'id' | 'name'>
+      & { projects?: Maybe<(
+        { __typename?: 'WorkspaceProjectConnection' }
+        & { edges?: Maybe<Array<Maybe<(
+          { __typename?: 'WorkspaceProjectEdge' }
+          & Pick<WorkspaceProjectEdge, 'cursor'>
+          & { node?: Maybe<(
+            { __typename?: 'WorkspaceProject' }
+            & Pick<WorkspaceProject, 'id' | 'name'>
           )> }
-        ) }
+        )>>> }
       )> }
-    )>>> }
+    ) }
   )> }
 );

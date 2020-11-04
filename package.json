@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
-    "@fxtrot/ui": "^1.0.59",
+    "@fxtrot/ui": "^1.0.63",
     "@nexus/schema": "^0.17.0",
     "@prisma/client": "2.10.1",
     "@spectrum-icons/workflow": "^3.2.0",

@@ -63,7 +63,7 @@ export interface NexusGenRootTypes {
   }
   WorkspaceProject: { // root type
     id: number; // Int!
-    name?: string | null; // String
+    name: string; // String!
   }
   WorkspaceProjectConnection: { // root type
     edges?: Array<NexusGenRootTypes['WorkspaceProjectEdge'] | null> | null; // [WorkspaceProjectEdge]
@@ -131,7 +131,7 @@ export interface NexusGenFieldTypes {
   }
   WorkspaceProject: { // field return type
     id: number; // Int!
-    name: string | null; // String
+    name: string; // String!
     setup: NexusGenRootTypes['WorkspaceProjectSetup'] | null; // WorkspaceProjectSetup
     workspace: NexusGenRootTypes['Workspace'] | null; // Workspace
   }

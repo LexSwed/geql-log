@@ -28,8 +28,7 @@ const queryWorkspace = gql`
 
 export const Sidebar: React.FC = () => {
   const { query } = useRouter()
-  const workspaceId = Number(query.workspaceId)
-  console.log({ query, workspaceId })
+  const workspaceId = Number(query?.id?.[0])
   const { data, loading } = useQuery<ListWorkspaceProjectsQuery, ListWorkspaceProjectsQueryVariables>(queryWorkspace, {
     variables: {
       workspaceId,
@@ -40,6 +39,7 @@ export const Sidebar: React.FC = () => {
   if (loading || !data) {
     return <Box borderRight="1px solid $gray100" as="aside" height="100%" />
   }
+
   const {
     userWorkspace: { workspace },
   } = data

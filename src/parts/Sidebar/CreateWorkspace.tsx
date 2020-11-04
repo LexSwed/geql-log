@@ -36,8 +36,8 @@ const createWorkspaceMutation = gql`
 `
 
 interface FormProps {
-  onCreate: () => void
-  title: string
+  onCreate?: () => void
+  title?: string
 }
 export function CreateWorkspaceForm({ onCreate, title }: FormProps) {
   const [name, setName] = useState('')

@@ -17,7 +17,7 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 const Home: React.FC<Props> = ({ workspaceId }) => {
   useEffect(() => {
     if (workspaceId) {
-      Router.push(`/${workspaceId}`)
+      Router.push(`/workspace/${workspaceId}`)
     } else {
       Router.push('/new')
     }
@@ -33,6 +33,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   if (session?.user?.email) {
     const res = await prisma.workspaceUser.findFirst({
       where: {
+        default: true,
         user: {
           email: session.user.email,
         },

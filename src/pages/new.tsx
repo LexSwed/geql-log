@@ -6,7 +6,7 @@ const New = (props) => {
   return (
     <Flex main="center" cross="center" as={Box} width="100vw" height="100vh" bc="$gray050">
       <Box p="$12" bc="#fff" br="$md">
-        <CreateWorkspaceForm title="" onCreate={() => {}} />
+        <CreateWorkspaceForm />
       </Box>
     </Flex>
   )

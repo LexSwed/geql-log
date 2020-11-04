@@ -13,6 +13,7 @@ export const Mutation = mutationType({
         return prisma.workspaceUser.create({
           data: {
             role: 'ADMIN',
+            default: true,
             user: {
               connect: {
                 email: session.user.email,

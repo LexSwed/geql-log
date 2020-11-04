@@ -78,7 +78,7 @@ export type WorkspaceProjectSetup = {
 export type WorkspaceProject = {
   __typename?: 'WorkspaceProject';
   id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   workspace?: Maybe<Workspace>;
   setup?: Maybe<WorkspaceProjectSetup>;
 };

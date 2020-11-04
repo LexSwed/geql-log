@@ -96,7 +96,7 @@ type Workspace {
 
 type WorkspaceProject {
   id: Int!
-  name: String
+  name: String!
   setup: WorkspaceProjectSetup
   workspace: Workspace
 }

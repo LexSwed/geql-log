@@ -2,12 +2,12 @@ import React from 'react'
 import { Text, Box, Flex, Button, Heading, Icon } from '@fxtrot/ui'
 import { Workspace } from '../../graphql/generated'
 import { useRouter } from 'next/router'
-import { HiOutlineChevronDown } from 'react-icons/hi'
+import { HiOutlineSwitchVertical } from 'react-icons/hi'
 
 const WorkspaceTile: React.FC<{ name: Workspace['name'] }> = ({ name }) => {
   return (
     <Flex flow="row" space="sm" main="spread" cross="center">
-      <Box flexShrink={0} borderRadius="large" width="$12" height="$12">
+      <Box flexShrink={0} borderRadius="large" size="$16">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           <path
             fill="#FF0066"
@@ -16,10 +16,10 @@ const WorkspaceTile: React.FC<{ name: Workspace['name'] }> = ({ name }) => {
           />
         </svg>
       </Box>
-      <Flex as={Box} justifySelf="end" cross="end">
-        <Button variant="flat" cross="center" aria-label="Switch workspace">
+      <Flex as={Box} justifySelf="end" cross="end" space="$2">
+        <Button variant="flat" size="lg" cross="center" aria-label="Switch workspace">
           <Heading as="h3">{name}</Heading>
-          <Icon as={HiOutlineChevronDown} size="sm" />
+          <Icon as={HiOutlineSwitchVertical} size="md" />
         </Button>
 
         <Box>

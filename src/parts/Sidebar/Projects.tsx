@@ -1,25 +1,26 @@
 import { MenuList, Section } from '@fxtrot/ui'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { ListWorkspaceProjectsQuery } from '../../graphql/generated'
+import { useSchemaId } from '../../utils'
 
 const Projects: React.FC<{
   projects: ListWorkspaceProjectsQuery['userWorkspace']['workspace']['projects']['edges']
 }> = ({ projects }) => {
-  const { query, asPath, replace } = useRouter()
-  const activeSchemaId = Number(query?.id?.[2])
+  const { asPath, replace } = useRouter()
+  const routeSchemaId = useSchemaId()
 
   useEffect(() => {
-    if (!activeSchemaId && projects?.length > 0) {
+    if (!routeSchemaId && projects?.length > 0) {
       replace(`${asPath}/schema/${projects[0]?.node.id}`)
     }
-  }, [asPath, activeSchemaId])
+  }, [asPath, routeSchemaId])
 
   return (
     <MenuList>
       <Section title="Schemas">
         {projects.map((p) => (
-          <MenuList.Item key={p.node.id} selected={p.node.id === activeSchemaId}>
+          <MenuList.Item key={p.node.id} selected={p.node.id === routeSchemaId}>
             {p.node.name}
           </MenuList.Item>
         ))}

@@ -1,4 +1,5 @@
-import { intArg, queryType } from '@nexus/schema'
+import { intArg, objectType, queryType, unionType } from '@nexus/schema'
+import Project from '@spectrum-icons/workflow/Project'
 
 export const Query = queryType({
   definition(t) {
@@ -49,6 +50,28 @@ export const Query = queryType({
             user: {
               email: session?.user?.email,
             },
+          },
+        })
+      },
+    })
+
+    t.field('project', {
+      type: 'WorkspaceProject',
+      args: {
+        id: intArg({
+          required: true,
+        }),
+      },
+      resolve: (_root, { id }, { prisma }) => {
+        return prisma.project.findOne({
+          where: {
+            id,
+          },
+          select: {
+            id: true,
+            name: true,
+            setup: true,
+            stats: true,
           },
         })
       },

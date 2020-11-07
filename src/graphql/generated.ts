@@ -14,6 +14,7 @@ export type Query = {
   me?: Maybe<User>;
   userWorkspace?: Maybe<WorkspaceUser>;
   userWorkspaces?: Maybe<WorkspaceUserConnection>;
+  project?: Maybe<WorkspaceProject>;
 };
 
 
@@ -29,6 +30,11 @@ export type QueryUserWorkspacesArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
+
+export type QueryProjectArgs = {
+  id: Scalars['Int'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create a workspace for current user */
@@ -40,12 +46,17 @@ export type MutationCreateWorkspaceArgs = {
   name: Scalars['String'];
 };
 
+export type Node = {
+  /** Resource ID */
+  id: Scalars['Int'];
+};
+
 export enum Role {
   Admin = 'ADMIN',
   User = 'USER'
 }
 
-export type Workspace = {
+export type Workspace = Node & {
   __typename?: 'Workspace';
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
@@ -61,7 +72,7 @@ export type WorkspaceProjectsArgs = {
   before?: Maybe<Scalars['String']>;
 };
 
-export type WorkspaceUser = {
+export type WorkspaceUser = Node & {
   __typename?: 'WorkspaceUser';
   id: Scalars['Int'];
   role: WorkspaceUserRole;
@@ -69,13 +80,15 @@ export type WorkspaceUser = {
   workspace: Workspace;
 };
 
-export type WorkspaceProjectSetup = {
+export type WorkspaceProjectSetup = Node & {
   __typename?: 'WorkspaceProjectSetup';
   id: Scalars['Int'];
   active: Scalars['Boolean'];
+  projectId: Scalars['Int'];
+  sharedSecret: Scalars['String'];
 };
 
-export type WorkspaceProject = {
+export type WorkspaceProject = Node & {
   __typename?: 'WorkspaceProject';
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -83,7 +96,7 @@ export type WorkspaceProject = {
   setup?: Maybe<WorkspaceProjectSetup>;
 };
 
-export type User = {
+export type User = Node & {
   __typename?: 'User';
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
@@ -151,6 +164,23 @@ export enum WorkspaceUserRole {
   User = 'USER',
   Admin = 'ADMIN'
 }
+
+export type ProjectSetupQueryVariables = Exact<{
+  projectId: Scalars['Int'];
+}>;
+
+
+export type ProjectSetupQuery = (
+  { __typename?: 'Query' }
+  & { project?: Maybe<(
+    { __typename?: 'WorkspaceProject' }
+    & Pick<WorkspaceProject, 'id' | 'name'>
+    & { setup?: Maybe<(
+      { __typename?: 'WorkspaceProjectSetup' }
+      & Pick<WorkspaceProjectSetup, 'id' | 'active' | 'projectId' | 'sharedSecret'>
+    )> }
+  )> }
+);
 
 export type CreateWorkspaceMutationVariables = Exact<{
   name: Scalars['String'];

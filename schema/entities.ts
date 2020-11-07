@@ -1,5 +1,13 @@
-import { objectType, enumType } from '@nexus/schema'
+import { objectType, enumType, interfaceType } from '@nexus/schema'
 import { WorkspaceUserRole as Role } from '@prisma/client'
+
+export const Node = interfaceType({
+  name: 'Node',
+  definition(t) {
+    t.int('id', { nullable: false, description: 'Resource ID' })
+    t.resolveType(() => null)
+  },
+})
 
 const members: Role[] = ['ADMIN', 'USER']
 export const WorkspaceUserRole = enumType({
@@ -10,6 +18,7 @@ export const WorkspaceUserRole = enumType({
 export const Workspace = objectType({
   name: 'Workspace',
   definition(t) {
+    t.implements(Node)
     t.model.id()
     t.model.name()
     t.model.image()
@@ -18,7 +27,7 @@ export const Workspace = objectType({
       totalCount: (root, args, { prisma }) => {
         return prisma.project.count({
           where: {
-            workspaceId: root.id,
+            workspaceId: (root as any).id,
           },
         })
       },
@@ -36,6 +45,7 @@ export const Workspace = objectType({
 export const WorkspaceUser = objectType({
   name: 'WorkspaceUser',
   definition(t) {
+    t.implements(Node)
     t.model.id()
     t.model.role()
     t.model.user()
@@ -46,24 +56,31 @@ export const WorkspaceUser = objectType({
 export const ProjectSetup = objectType({
   name: 'WorkspaceProjectSetup',
   definition(t) {
+    t.implements(Node)
     t.model('ProjectSetup').id()
     t.model('ProjectSetup').active()
+    t.model('ProjectSetup').projectId()
+    t.model('ProjectSetup').sharedSecret()
   },
 })
 
 export const Project = objectType({
   name: 'WorkspaceProject',
   definition(t) {
+    t.implements(Node)
     t.model('Project').id()
     t.model('Project').name()
     t.model('Project').Workspace({ alias: 'workspace' })
-    t.model('Project').setup({ type: 'WorkspaceProjectSetup' })
+    t.model('Project').setup({
+      type: 'WorkspaceProjectSetup',
+    })
   },
 })
 
 export const User = objectType({
   name: 'User',
   definition(t) {
+    t.implements(Node)
     t.model.id()
     t.model.name()
     t.model.email()

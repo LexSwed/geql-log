@@ -76,6 +76,8 @@ export interface NexusGenRootTypes {
   WorkspaceProjectSetup: { // root type
     active: boolean; // Boolean!
     id: number; // Int!
+    projectId: number; // Int!
+    sharedSecret: string; // String!
   }
   WorkspaceUser: { // root type
     id: number; // Int!
@@ -89,6 +91,7 @@ export interface NexusGenRootTypes {
     cursor: string; // String!
     node?: NexusGenRootTypes['WorkspaceUser'] | null; // WorkspaceUser
   }
+  Node: NexusGenRootTypes['User'] | NexusGenRootTypes['Workspace'] | NexusGenRootTypes['WorkspaceProject'] | NexusGenRootTypes['WorkspaceProjectSetup'] | NexusGenRootTypes['WorkspaceUser'];
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
@@ -113,6 +116,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     me: NexusGenRootTypes['User'] | null; // User
+    project: NexusGenRootTypes['WorkspaceProject'] | null; // WorkspaceProject
     userWorkspace: NexusGenRootTypes['WorkspaceUser'] | null; // WorkspaceUser
     userWorkspaces: NexusGenRootTypes['WorkspaceUserConnection'] | null; // WorkspaceUserConnection
   }
@@ -147,6 +151,8 @@ export interface NexusGenFieldTypes {
   WorkspaceProjectSetup: { // field return type
     active: boolean; // Boolean!
     id: number; // Int!
+    projectId: number; // Int!
+    sharedSecret: string; // String!
   }
   WorkspaceUser: { // field return type
     id: number; // Int!
@@ -163,6 +169,9 @@ export interface NexusGenFieldTypes {
     cursor: string; // String!
     node: NexusGenRootTypes['WorkspaceUser'] | null; // WorkspaceUser
   }
+  Node: { // field return type
+    id: number; // Int!
+  }
 }
 
 export interface NexusGenFieldTypeNames {
@@ -177,6 +186,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     me: 'User'
+    project: 'WorkspaceProject'
     userWorkspace: 'WorkspaceUser'
     userWorkspaces: 'WorkspaceUserConnection'
   }
@@ -211,6 +221,8 @@ export interface NexusGenFieldTypeNames {
   WorkspaceProjectSetup: { // field return type name
     active: 'Boolean'
     id: 'Int'
+    projectId: 'Int'
+    sharedSecret: 'String'
   }
   WorkspaceUser: { // field return type name
     id: 'Int'
@@ -227,6 +239,9 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'WorkspaceUser'
   }
+  Node: { // field return type name
+    id: 'Int'
+  }
 }
 
 export interface NexusGenArgTypes {
@@ -236,6 +251,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    project: { // args
+      id: number; // Int!
+    }
     userWorkspace: { // args
       workspaceId: number; // Int!
     }
@@ -265,6 +283,7 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractResolveReturnTypes {
+  Node: "User" | "Workspace" | "WorkspaceProject" | "WorkspaceProjectSetup" | "WorkspaceUser"
 }
 
 export interface NexusGenInheritedFields {}
@@ -275,7 +294,7 @@ export type NexusGenInputNames = never;
 
 export type NexusGenEnumNames = "Role" | "WorkspaceUserRole";
 
-export type NexusGenInterfaceNames = never;
+export type NexusGenInterfaceNames = "Node";
 
 export type NexusGenScalarNames = "Boolean" | "Float" | "ID" | "Int" | "String";
 

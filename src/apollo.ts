@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ApolloClient, InMemoryCache, ApolloLink } from '@apollo/client'
 
 let apolloClient
 
@@ -10,10 +10,18 @@ function createIsomorphLink() {
     return new SchemaLink({ schema })
   } else {
     const { HttpLink } = require('@apollo/client/link/http')
-    return new HttpLink({
-      uri: '/api/gql',
-      credentials: 'same-origin',
-    })
+    const { BatchHttpLink } = require('@apollo/link-batch-http')
+
+    return ApolloLink.concat(
+      new BatchHttpLink({
+        batchInterval: 100,
+        uri: '/api/gql',
+      }),
+      new HttpLink({
+        uri: '/api/gql',
+        credentials: 'same-origin',
+      })
+    )
   }
 }
 

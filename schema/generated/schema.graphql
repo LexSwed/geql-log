@@ -7,6 +7,11 @@ type Mutation {
   createWorkspace(name: String!): WorkspaceUser!
 }
 
+interface Node {
+  """Resource ID"""
+  id: Int!
+}
+
 """
 PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
 """
@@ -34,6 +39,7 @@ type PageInfo {
 
 type Query {
   me: User
+  project(id: Int!): WorkspaceProject
   userWorkspace(workspaceId: Int!): WorkspaceUser
   userWorkspaces(
     """Returns the elements in the list that come after the specified cursor"""
@@ -55,7 +61,7 @@ enum Role {
   USER
 }
 
-type User {
+type User implements Node {
   email: String
   id: Int!
   image: String
@@ -75,7 +81,7 @@ type User {
   ): WorkspaceUserConnection
 }
 
-type Workspace {
+type Workspace implements Node {
   id: Int!
   image: String
   name: String
@@ -94,7 +100,7 @@ type Workspace {
   ): WorkspaceProjectConnection
 }
 
-type WorkspaceProject {
+type WorkspaceProject implements Node {
   id: Int!
   name: String!
   setup: WorkspaceProjectSetup
@@ -122,12 +128,14 @@ type WorkspaceProjectEdge {
   node: WorkspaceProject
 }
 
-type WorkspaceProjectSetup {
+type WorkspaceProjectSetup implements Node {
   active: Boolean!
   id: Int!
+  projectId: Int!
+  sharedSecret: String!
 }
 
-type WorkspaceUser {
+type WorkspaceUser implements Node {
   id: Int!
   role: WorkspaceUserRole!
   user: User!

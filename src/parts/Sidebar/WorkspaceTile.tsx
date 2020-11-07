@@ -1,8 +1,8 @@
 import React from 'react'
-import { Text, Box, Flex, Button, Heading, Icon } from '@fxtrot/ui'
+import { Text, Box, Flex, Button, Heading, Icon, Menu } from '@fxtrot/ui'
 import { Workspace } from '../../graphql/generated'
 import { useRouter } from 'next/router'
-import { HiOutlineSwitchVertical } from 'react-icons/hi'
+import { HiOutlineDotsVertical, HiOutlineAdjustments, HiOutlineSwitchVertical, HiOutlineLogout } from 'react-icons/hi'
 
 const WorkspaceTile: React.FC<{ name: Workspace['name'] }> = ({ name }) => {
   return (
@@ -17,10 +17,28 @@ const WorkspaceTile: React.FC<{ name: Workspace['name'] }> = ({ name }) => {
         </svg>
       </Box>
       <Flex as={Box} justifySelf="end" cross="end" space="$2">
-        <Button variant="flat" size="lg" cross="center" aria-label="Switch workspace">
+        <Flex flow="row" cross="center" main="end" space="$2">
           <Heading as="h3">{name}</Heading>
-          <Icon as={HiOutlineSwitchVertical} size="md" />
-        </Button>
+          <Menu>
+            <Menu.Button variant="flat" cross="center" aria-label="Switch workspace">
+              <Icon as={HiOutlineDotsVertical} size="md" />
+            </Menu.Button>
+            <Menu.List>
+              <Menu.Item space="sm">
+                <Icon as={HiOutlineSwitchVertical} />
+                Switch
+              </Menu.Item>
+              <Menu.Item space="sm">
+                <Icon as={HiOutlineAdjustments} />
+                Settings
+              </Menu.Item>
+              <Menu.Item space="sm">
+                <Icon as={HiOutlineLogout} />
+                Log Out
+              </Menu.Item>
+            </Menu.List>
+          </Menu>
+        </Flex>
 
         <Box>
           <Button size="sm" variant="flat">

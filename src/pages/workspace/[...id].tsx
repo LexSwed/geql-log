@@ -6,6 +6,7 @@ import { Box } from '@fxtrot/ui'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { getSession } from 'next-auth/client'
 import { prisma } from '../../../prisma'
+import Setup from '../../parts/Setup'
 
 const head = (
   <Head>
@@ -28,7 +29,7 @@ const Workspace = ({ redirectUrl }: InferGetServerSidePropsType<typeof getServer
       {head}
       <Box display="grid" gridTemplateColumns={'300px 3fr'} height="100vh">
         <Sidebar />
-        <Box>{/* <div>{router.query}</div> */}</Box>
+        <Setup />
       </Box>
     </>
   )
@@ -38,32 +39,35 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const workspaceId = Number(ctx.params?.id?.[0])
   const session = await getSession(ctx)
   if (workspaceId && session) {
-    const workspaces = await prisma.workspaceUser.findMany({
+    const workspace = await prisma.workspaceUser.findFirst({
       where: {
         user: {
           email: session.user.email,
         },
+        OR: [
+          {
+            workspaceId,
+          },
+          {
+            default: true,
+          },
+        ],
       },
       select: {
         workspaceId: true,
       },
     })
-    if (workspaces.find((w) => w.workspaceId === workspaceId)) {
-      return {
-        props: {
-          redirectUrl: null,
-        },
-      }
-    } else if (!workspaces.length) {
+
+    if (!workspace) {
       return {
         props: {
           redirectUrl: '/new',
         },
       }
-    } else {
+    } else if (workspace.workspaceId !== workspaceId) {
       return {
         props: {
-          redirectUrl: `/workspace/${workspaces[0]?.workspaceId}`,
+          redirectUrl: `/workspace/${workspace?.workspaceId}`,
         },
       }
     }

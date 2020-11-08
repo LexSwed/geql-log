@@ -4,6 +4,10 @@
     "module": "commonjs",
     "target": "es6",
     "outDir": "dist",
-    "rootDir": "."
-  }
+    "rootDir": ".",
+    "esModuleInterop": true,
+    "noEmit": false,
+    "sourceMap": false
+  },
+  "include": ["."]
 }

@@ -10,15 +10,15 @@
     {
       "type": "http",
       "direction": "out",
-      "name": "res"
+      "name": "$return"
     },
     {
       "name": "projectDocument",
       "type": "cosmosDB",
       "databaseName": "logs-dev",
-      "collectionName": "project",
+      "collectionName": "projects",
       "createIfNotExists": true,
-      "connectionStringSetting": "MyAccount_COSMOSDB",
+      "connectionStringSetting": "geqldb_DOCUMENTDB",
       "direction": "out"
     }
   ],

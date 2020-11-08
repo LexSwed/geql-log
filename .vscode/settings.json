@@ -1,5 +1,11 @@
 {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "prisma.plugin.nextjs.addTypesOnSave": true,
-    "prisma.plugin.nextjs.hasPrompted": true
+    "prisma.plugin.nextjs.hasPrompted": true,
+    "azureFunctions.deploySubpath": "functions",
+    "azureFunctions.postDeployTask": "npm install",
+    "azureFunctions.projectLanguage": "TypeScript",
+    "azureFunctions.projectRuntime": "~3",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.preDeployTask": "npm prune"
 }

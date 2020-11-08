@@ -74,20 +74,8 @@ model Workspace {
 }
 
 model Project {
-  id            Int       @id @default(autoincrement())
+  projectKey    String @id
   name          String
-  stats         ProjectStats?
-  setup         ProjectSetup?
-}
-
-model ProjectSetup {
-  id            Int       @id @default(autoincrement())
-  key           String    @default(uuid())
-}
-
-model ProjectStats {
-  id            Int       @id @default(autoincrement())
-  lastRequest   DateTime?
 }
 
 enum WorkspaceUserRole {

@@ -82,10 +82,7 @@ model Project {
 
 model ProjectSetup {
   id            Int       @id @default(autoincrement())
-  projectId     Int       @map(name: "project_id")
-  sharedSecret  String    @default(uuid()) @map(name: "shared_secret")
-  active        Boolean   @default(true)
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  key           String    @default(uuid())
 }
 
 model ProjectStats {

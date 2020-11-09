@@ -1,6 +1,5 @@
 import { objectType, enumType, interfaceType } from '@nexus/schema'
 import { WorkspaceUserRole as Role } from '@prisma/client'
-import { getSetupItems } from './azure'
 
 export const Node = interfaceType({
   name: 'Node',
@@ -26,16 +25,27 @@ export const Workspace = objectType({
     t.connectionField('projects', {
       type: 'WorkspaceProject',
       totalCount: (root, args, { prisma }) => {
-        return prisma.project.count({
+        return prisma.workspaceProject.count({
           where: {
             workspaceId: (root as any).id,
           },
         })
       },
       nodes: (root, args, { prisma }) => {
-        return prisma.project.findMany({
+        return prisma.workspaceProject.findMany({
           where: {
             workspaceId: root.id,
+          },
+          select: {
+            id: true,
+            name: true,
+            setup: {
+              select: {
+                id: true,
+                host: true,
+                key: true,
+              },
+            },
           },
         })
       },
@@ -57,20 +67,22 @@ export const WorkspaceUser = objectType({
 export const WorkspaceProjectSetup = objectType({
   name: 'WorkspaceProjectSetup',
   definition(t) {
-    t.string('key')
+    t.implements(Node)
+    t.model.id()
+    t.model.key()
+    t.model.host()
   },
 })
 
-export const Project = objectType({
+export const WorkspaceProject = objectType({
   name: 'WorkspaceProject',
   definition(t) {
-    t.model('Project').id()
-    t.model('Project').name()
-    t.model('Project').Workspace({ alias: 'workspace' })
-    t.field('setup', {
-      type: WorkspaceProjectSetup,
-      list: true,
-      resolve: async (root, args, ctx) => getSetupItems({ id: root.id }),
+    t.implements(Node)
+    t.model.id()
+    t.model.name()
+    t.model.Workspace({ alias: 'workspace' })
+    t.model.setup({
+      type: 'WorkspaceProjectSetup',
     })
   },
 })

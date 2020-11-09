@@ -66,16 +66,29 @@ model Workspace {
   id            Int       @id @default(autoincrement())
   name          String?
   users         WorkspaceUser[]
-  projects      Project[]
+  projects      WorkspaceProject[]
   image         String?
   githubOrgId   String?   @unique @map(name: "github_org_id")
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 }
 
-model Project {
-  id    String @id
+model WorkspaceProject {
+  id            Int       @id @default(autoincrement())
   name          String
+}
+
+
+model WorkspaceProjectSetup {
+  id            Int      @id @default(autoincrement())
+  key           String   @default(cuid())
+  host          String
+  lastUsed      DateTime?
+}
+
+
+model WorkspaceProjectStats {
+  id            Int       @id @default(autoincrement())
 }
 
 enum WorkspaceUserRole {

@@ -14,7 +14,7 @@ function createIsomorphLink() {
 
     return ApolloLink.concat(
       new BatchHttpLink({
-        batchInterval: 100,
+        batchInterval: 10,
         uri: '/api/gql',
       }),
       new HttpLink({

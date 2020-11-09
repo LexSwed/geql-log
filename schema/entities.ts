@@ -1,5 +1,6 @@
 import { objectType, enumType, interfaceType } from '@nexus/schema'
 import { WorkspaceUserRole as Role } from '@prisma/client'
+import { getSetupItems } from './azure'
 
 export const Node = interfaceType({
   name: 'Node',
@@ -53,26 +54,23 @@ export const WorkspaceUser = objectType({
   },
 })
 
-export const ProjectSetup = objectType({
+export const WorkspaceProjectSetup = objectType({
   name: 'WorkspaceProjectSetup',
   definition(t) {
-    t.implements(Node)
-    t.model('ProjectSetup').id()
-    t.model('ProjectSetup').active()
-    t.model('ProjectSetup').projectId()
-    t.model('ProjectSetup').sharedSecret()
+    t.string('key')
   },
 })
 
 export const Project = objectType({
   name: 'WorkspaceProject',
   definition(t) {
-    t.implements(Node)
     t.model('Project').id()
     t.model('Project').name()
     t.model('Project').Workspace({ alias: 'workspace' })
-    t.model('Project').setup({
-      type: 'WorkspaceProjectSetup',
+    t.field('setup', {
+      type: WorkspaceProjectSetup,
+      list: true,
+      resolve: async (root, args, ctx) => getSetupItems({ id: root.id }),
     })
   },
 })

@@ -39,7 +39,7 @@ type PageInfo {
 
 type Query {
   me: User
-  project(id: Int!): WorkspaceProject
+  project(id: String!): WorkspaceProject
   userWorkspace(workspaceId: Int!): WorkspaceUser
   userWorkspaces(
     """Returns the elements in the list that come after the specified cursor"""
@@ -100,10 +100,9 @@ type Workspace implements Node {
   ): WorkspaceProjectConnection
 }
 
-type WorkspaceProject implements Node {
-  id: Int!
+type WorkspaceProject {
+  id: String!
   name: String!
-  setup: WorkspaceProjectSetup
   workspace: Workspace
 }
 
@@ -126,13 +125,6 @@ type WorkspaceProjectEdge {
 
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
   node: WorkspaceProject
-}
-
-type WorkspaceProjectSetup implements Node {
-  active: Boolean!
-  id: Int!
-  projectId: Int!
-  sharedSecret: String!
 }
 
 type WorkspaceUser implements Node {

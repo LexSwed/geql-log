@@ -54,8 +54,8 @@ export function CreateWorkspaceForm({ onCreate, title }: FormProps) {
     e.preventDefault()
     const { data } = await createWorkspace()
     if (data?.createWorkspace?.workspace?.id) {
-      Router.push(`/${data?.createWorkspace?.workspace.id}`)
-      onCreate()
+      Router.push(`/workspace/${data?.createWorkspace?.workspace.id}`)
+      onCreate?.()
     }
   }
 

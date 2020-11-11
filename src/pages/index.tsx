@@ -14,12 +14,10 @@ const head = (
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 
-const Home: React.FC<Props> = ({ workspaceId }) => {
+const Home: React.FC<Props> = ({ redirectUrl }) => {
   useEffect(() => {
-    if (workspaceId) {
-      Router.push(`/workspace/${workspaceId}`)
-    } else {
-      Router.push('/new')
+    if (redirectUrl) {
+      Router.push(redirectUrl)
     }
   }, [])
 
@@ -30,6 +28,7 @@ export default Home
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const session = await getSession({ req })
+
   if (session?.user?.email) {
     const res = await prisma.workspaceUser.findFirst({
       where: {
@@ -45,15 +44,17 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     return {
       props: res
         ? {
-            workspaceId: res?.id,
+            redirectUrl: `/workspace/${res?.id}`,
           }
-        : {},
+        : {
+            redirectUrl: `/new`,
+          },
     }
   }
 
   return {
     props: {
-      workspaceId: null,
+      redirectUrl: '/signin',
     },
   }
 }

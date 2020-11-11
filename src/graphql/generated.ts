@@ -83,9 +83,8 @@ export type WorkspaceUser = Node & {
 export type WorkspaceProjectSetup = Node & {
   __typename?: 'WorkspaceProjectSetup';
   id: Scalars['Int'];
-  active: Scalars['Boolean'];
-  projectId: Scalars['Int'];
-  sharedSecret: Scalars['String'];
+  key: Scalars['String'];
+  host: Scalars['String'];
 };
 
 export type WorkspaceProject = Node & {
@@ -93,7 +92,15 @@ export type WorkspaceProject = Node & {
   id: Scalars['Int'];
   name: Scalars['String'];
   workspace?: Maybe<Workspace>;
-  setup?: Maybe<WorkspaceProjectSetup>;
+  setup: Array<WorkspaceProjectSetup>;
+};
+
+
+export type WorkspaceProjectSetupArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  before?: Maybe<WorkspaceProjectSetupWhereUniqueInput>;
+  after?: Maybe<WorkspaceProjectSetupWhereUniqueInput>;
 };
 
 export type User = Node & {
@@ -165,6 +172,10 @@ export enum WorkspaceUserRole {
   Admin = 'ADMIN'
 }
 
+export type WorkspaceProjectSetupWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+};
+
 export type ProjectSetupQueryVariables = Exact<{
   projectId: Scalars['Int'];
 }>;
@@ -175,9 +186,9 @@ export type ProjectSetupQuery = (
   & { project?: Maybe<(
     { __typename?: 'WorkspaceProject' }
     & Pick<WorkspaceProject, 'id' | 'name'>
-    & { setup?: Maybe<(
+    & { setup: Array<(
       { __typename?: 'WorkspaceProjectSetup' }
-      & Pick<WorkspaceProjectSetup, 'id' | 'active' | 'projectId' | 'sharedSecret'>
+      & Pick<WorkspaceProjectSetup, 'id'>
     )> }
   )> }
 );

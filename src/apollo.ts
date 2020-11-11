@@ -12,11 +12,10 @@ function createIsomorphLink() {
     const { HttpLink } = require('@apollo/client/link/http')
     const { BatchHttpLink } = require('@apollo/link-batch-http')
 
-    return ApolloLink.concat(
-      new BatchHttpLink({
-        batchInterval: 10,
-        uri: '/api/gql',
-      }),
+    return new BatchHttpLink({
+      batchInterval: 10,
+      uri: '/api/gql',
+    }).concat(
       new HttpLink({
         uri: '/api/gql',
         credentials: 'same-origin',

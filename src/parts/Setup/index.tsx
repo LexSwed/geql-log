@@ -12,9 +12,6 @@ const projectSetupQuery = gql`
       name
       setup {
         id
-        active
-        projectId
-        sharedSecret
       }
     }
   }

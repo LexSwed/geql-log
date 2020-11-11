@@ -16,7 +16,7 @@ const SignIn = (props) => {
       <Head>
         <title>Geql - Sign In</title>
       </Head>
-      <Flex main="center" cross="center" minHeight="100vh" minWidth="100vw">
+      <Flex main="center" cross="center" as={Box} minHeight="100vh" minWidth="100vw">
         <Button onClick={() => signIn('github')}>Connect</Button>
       </Flex>
     </>

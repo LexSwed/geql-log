@@ -27,7 +27,7 @@ const handler: NextApiHandler = async (req, res) => {
   const session = await getSession({ req })
 
   if (!session?.user) {
-    res.redirect('/signin')
+    res.status(401).end()
 
     return
   }

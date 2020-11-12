@@ -1,5 +1,8 @@
 import { useMemo } from 'react'
-import { ApolloClient, InMemoryCache, ApolloLink } from '@apollo/client'
+import { ApolloClient, InMemoryCache, HttpLink, concat } from '@apollo/client'
+import { BatchHttpLink } from '@apollo/link-batch-http'
+import { onError } from '@apollo/client/link/error'
+import Router from 'next/router'
 
 let apolloClient
 
@@ -9,18 +12,19 @@ function createIsomorphLink() {
     const { schema } = require('../schema')
     return new SchemaLink({ schema })
   } else {
-    const { HttpLink } = require('@apollo/client/link/http')
-    const { BatchHttpLink } = require('@apollo/link-batch-http')
-
-    return new BatchHttpLink({
-      batchInterval: 10,
+    const httpLink = new BatchHttpLink({
       uri: '/api/gql',
-    }).concat(
-      new HttpLink({
-        uri: '/api/gql',
-        credentials: 'same-origin',
-      })
-    )
+      credentials: 'same-origin',
+      batchInterval: 10,
+    })
+    const logoutLink = onError(({ networkError }) => {
+      if ((networkError as any)?.statusCode === 401) {
+        window.sessionStorage.setItem('signInRedirectUrl', window.location.pathname)
+        Router.push('/signin')
+      }
+    })
+
+    return concat(logoutLink, httpLink)
   }
 }
 

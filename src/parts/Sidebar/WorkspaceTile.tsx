@@ -1,10 +1,17 @@
 import React from 'react'
 import { Text, Box, Flex, Button, Heading, Icon, Menu } from '@fxtrot/ui'
 import { Workspace } from '../../graphql/generated'
-import { useRouter } from 'next/router'
 import { HiOutlineDotsVertical, HiOutlineAdjustments, HiOutlineSwitchVertical, HiOutlineLogout } from 'react-icons/hi'
+import { useSession, signOut as nextSignOut } from 'next-auth/client'
 
 const WorkspaceTile: React.FC<{ name: Workspace['name'] }> = ({ name }) => {
+  const [session] = useSession()
+
+  function signOut() {
+    nextSignOut({
+      callbackUrl: '/',
+    })
+  }
   return (
     <Flex flow="row" space="sm" main="spread" cross="center">
       <Box flexShrink={0} borderRadius="large" size="$16">
@@ -32,7 +39,7 @@ const WorkspaceTile: React.FC<{ name: Workspace['name'] }> = ({ name }) => {
                 <Icon as={HiOutlineAdjustments} />
                 Settings
               </Menu.Item>
-              <Menu.Item space="sm">
+              <Menu.Item space="sm" onClick={signOut}>
                 <Icon as={HiOutlineLogout} />
                 Log Out
               </Menu.Item>
@@ -40,10 +47,10 @@ const WorkspaceTile: React.FC<{ name: Workspace['name'] }> = ({ name }) => {
           </Menu>
         </Flex>
 
-        <Box>
-          <Button size="sm" variant="flat">
-            Settings
-          </Button>
+        <Box pr="$10">
+          <Text size="sm" tone="light">
+            {session?.user?.name}
+          </Text>
         </Box>
       </Flex>
     </Flex>

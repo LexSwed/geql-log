@@ -28,7 +28,7 @@ const Setup = () => {
     return null
   }
 
-  if (!data?.project?.setup) return <CreateProjectSetup />
+  if (!data?.project?.setup.length) return <CreateProjectSetup />
 
   const { name, setup } = data.project
 

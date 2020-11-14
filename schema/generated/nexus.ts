@@ -26,9 +26,6 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  WorkspaceProjectSetupWhereUniqueInput: { // input type
-    id?: number | null; // Int
-  }
 }
 
 export interface NexusGenEnums {
@@ -42,6 +39,7 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  DateTime: any
 }
 
 export interface NexusGenRootTypes {
@@ -77,9 +75,20 @@ export interface NexusGenRootTypes {
     node?: NexusGenRootTypes['WorkspaceProject'] | null; // WorkspaceProject
   }
   WorkspaceProjectSetup: { // root type
-    host: string; // String!
     id: number; // Int!
     key: string; // String!
+    lastUsed?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  WorkspaceProjectStats: { // root type
+    id: number; // Int!
+  }
+  WorkspaceProjectStatsConnection: { // root type
+    edges?: Array<NexusGenRootTypes['WorkspaceProjectStatsEdge'] | null> | null; // [WorkspaceProjectStatsEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  WorkspaceProjectStatsEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['WorkspaceProjectStats'] | null; // WorkspaceProjectStats
   }
   WorkspaceUser: { // root type
     id: number; // Int!
@@ -93,11 +102,10 @@ export interface NexusGenRootTypes {
     cursor: string; // String!
     node?: NexusGenRootTypes['WorkspaceUser'] | null; // WorkspaceUser
   }
-  Node: NexusGenRootTypes['User'] | NexusGenRootTypes['Workspace'] | NexusGenRootTypes['WorkspaceProject'] | NexusGenRootTypes['WorkspaceProjectSetup'] | NexusGenRootTypes['WorkspaceUser'];
+  Node: NexusGenRootTypes['User'] | NexusGenRootTypes['Workspace'] | NexusGenRootTypes['WorkspaceProject'] | NexusGenRootTypes['WorkspaceProjectSetup'] | NexusGenRootTypes['WorkspaceProjectStats'] | NexusGenRootTypes['WorkspaceUser'];
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
-  WorkspaceProjectSetupWhereUniqueInput: NexusGenInputs['WorkspaceProjectSetupWhereUniqueInput'];
   Role: NexusGenEnums['Role'];
   WorkspaceUserRole: NexusGenEnums['WorkspaceUserRole'];
   String: NexusGenScalars['String'];
@@ -105,6 +113,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   Float: NexusGenScalars['Float'];
   Boolean: NexusGenScalars['Boolean'];
   ID: NexusGenScalars['ID'];
+  DateTime: NexusGenScalars['DateTime'];
 }
 
 export interface NexusGenFieldTypes {
@@ -137,9 +146,10 @@ export interface NexusGenFieldTypes {
     projects: NexusGenRootTypes['WorkspaceProjectConnection'] | null; // WorkspaceProjectConnection
   }
   WorkspaceProject: { // field return type
+    activeSetup: NexusGenRootTypes['WorkspaceProjectSetup'] | null; // WorkspaceProjectSetup
     id: number; // Int!
     name: string; // String!
-    setup: NexusGenRootTypes['WorkspaceProjectSetup'][]; // [WorkspaceProjectSetup!]!
+    stats: NexusGenRootTypes['WorkspaceProjectStatsConnection'] | null; // WorkspaceProjectStatsConnection
     workspace: NexusGenRootTypes['Workspace'] | null; // Workspace
   }
   WorkspaceProjectConnection: { // field return type
@@ -152,9 +162,21 @@ export interface NexusGenFieldTypes {
     node: NexusGenRootTypes['WorkspaceProject'] | null; // WorkspaceProject
   }
   WorkspaceProjectSetup: { // field return type
-    host: string; // String!
     id: number; // Int!
     key: string; // String!
+    lastUsed: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  WorkspaceProjectStats: { // field return type
+    id: number; // Int!
+  }
+  WorkspaceProjectStatsConnection: { // field return type
+    edges: Array<NexusGenRootTypes['WorkspaceProjectStatsEdge'] | null> | null; // [WorkspaceProjectStatsEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+    totalCount: number | null; // Int
+  }
+  WorkspaceProjectStatsEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['WorkspaceProjectStats'] | null; // WorkspaceProjectStats
   }
   WorkspaceUser: { // field return type
     id: number; // Int!
@@ -206,9 +228,10 @@ export interface NexusGenFieldTypeNames {
     projects: 'WorkspaceProjectConnection'
   }
   WorkspaceProject: { // field return type name
+    activeSetup: 'WorkspaceProjectSetup'
     id: 'Int'
     name: 'String'
-    setup: 'WorkspaceProjectSetup'
+    stats: 'WorkspaceProjectStatsConnection'
     workspace: 'Workspace'
   }
   WorkspaceProjectConnection: { // field return type name
@@ -221,9 +244,21 @@ export interface NexusGenFieldTypeNames {
     node: 'WorkspaceProject'
   }
   WorkspaceProjectSetup: { // field return type name
-    host: 'String'
     id: 'Int'
     key: 'String'
+    lastUsed: 'DateTime'
+  }
+  WorkspaceProjectStats: { // field return type name
+    id: 'Int'
+  }
+  WorkspaceProjectStatsConnection: { // field return type name
+    edges: 'WorkspaceProjectStatsEdge'
+    pageInfo: 'PageInfo'
+    totalCount: 'Int'
+  }
+  WorkspaceProjectStatsEdge: { // field return type name
+    cursor: 'String'
+    node: 'WorkspaceProjectStats'
   }
   WorkspaceUser: { // field return type name
     id: 'Int'
@@ -282,9 +317,9 @@ export interface NexusGenArgTypes {
     }
   }
   WorkspaceProject: {
-    setup: { // args
-      after?: NexusGenInputs['WorkspaceProjectSetupWhereUniqueInput'] | null; // WorkspaceProjectSetupWhereUniqueInput
-      before?: NexusGenInputs['WorkspaceProjectSetupWhereUniqueInput'] | null; // WorkspaceProjectSetupWhereUniqueInput
+    stats: { // args
+      after?: string | null; // String
+      before?: string | null; // String
       first?: number | null; // Int
       last?: number | null; // Int
     }
@@ -292,20 +327,20 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractResolveReturnTypes {
-  Node: "User" | "Workspace" | "WorkspaceProject" | "WorkspaceProjectSetup" | "WorkspaceUser"
+  Node: "User" | "Workspace" | "WorkspaceProject" | "WorkspaceProjectSetup" | "WorkspaceProjectStats" | "WorkspaceUser"
 }
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Mutation" | "PageInfo" | "Query" | "User" | "Workspace" | "WorkspaceProject" | "WorkspaceProjectConnection" | "WorkspaceProjectEdge" | "WorkspaceProjectSetup" | "WorkspaceUser" | "WorkspaceUserConnection" | "WorkspaceUserEdge";
+export type NexusGenObjectNames = "Mutation" | "PageInfo" | "Query" | "User" | "Workspace" | "WorkspaceProject" | "WorkspaceProjectConnection" | "WorkspaceProjectEdge" | "WorkspaceProjectSetup" | "WorkspaceProjectStats" | "WorkspaceProjectStatsConnection" | "WorkspaceProjectStatsEdge" | "WorkspaceUser" | "WorkspaceUserConnection" | "WorkspaceUserEdge";
 
-export type NexusGenInputNames = "WorkspaceProjectSetupWhereUniqueInput";
+export type NexusGenInputNames = never;
 
 export type NexusGenEnumNames = "Role" | "WorkspaceUserRole";
 
 export type NexusGenInterfaceNames = "Node";
 
-export type NexusGenScalarNames = "Boolean" | "Float" | "ID" | "Int" | "String";
+export type NexusGenScalarNames = "Boolean" | "DateTime" | "Float" | "ID" | "Int" | "String";
 
 export type NexusGenUnionNames = never;
 

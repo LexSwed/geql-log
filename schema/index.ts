@@ -4,11 +4,17 @@ import path from 'path'
 import * as entities from './entities'
 import { Mutation } from './mutation'
 import { Query } from './query'
+import { DateTime } from './scalars'
 
 export const schema = makeSchema({
-  types: { Query, Mutation, ...entities },
+  types: { Query, Mutation, DateTime, ...entities },
   plugins: [
-    nexusSchemaPrisma({ experimentalCRUD: true }),
+    nexusSchemaPrisma({
+      experimentalCRUD: true,
+      scalars: {
+        DateTime,
+      },
+    }),
     connectionPlugin({
       extendConnection: {
         totalCount: { type: 'Int' },

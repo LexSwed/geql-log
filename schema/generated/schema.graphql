@@ -2,6 +2,11 @@
 ### Do not make changes to this file directly
 
 
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
 type Mutation {
   """Create a workspace for current user"""
   createWorkspace(name: String!): WorkspaceUser!
@@ -101,9 +106,22 @@ type Workspace implements Node {
 }
 
 type WorkspaceProject implements Node {
+  activeSetup: WorkspaceProjectSetup
   id: Int!
   name: String!
-  setup(after: WorkspaceProjectSetupWhereUniqueInput, before: WorkspaceProjectSetupWhereUniqueInput, first: Int, last: Int): [WorkspaceProjectSetup!]!
+  stats(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): WorkspaceProjectStatsConnection
   workspace: Workspace
 }
 
@@ -129,13 +147,34 @@ type WorkspaceProjectEdge {
 }
 
 type WorkspaceProjectSetup implements Node {
-  host: String!
   id: Int!
   key: String!
+  lastUsed: DateTime
 }
 
-input WorkspaceProjectSetupWhereUniqueInput {
-  id: Int
+type WorkspaceProjectStats implements Node {
+  id: Int!
+}
+
+type WorkspaceProjectStatsConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [WorkspaceProjectStatsEdge]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type WorkspaceProjectStatsEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: WorkspaceProjectStats
 }
 
 type WorkspaceUser implements Node {

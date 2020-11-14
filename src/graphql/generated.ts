@@ -7,7 +7,10 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  DateTime: any;
 };
+
 
 export type Query = {
   __typename?: 'Query';
@@ -84,7 +87,12 @@ export type WorkspaceProjectSetup = Node & {
   __typename?: 'WorkspaceProjectSetup';
   id: Scalars['Int'];
   key: Scalars['String'];
-  host: Scalars['String'];
+  lastUsed?: Maybe<Scalars['DateTime']>;
+};
+
+export type WorkspaceProjectStats = Node & {
+  __typename?: 'WorkspaceProjectStats';
+  id: Scalars['Int'];
 };
 
 export type WorkspaceProject = Node & {
@@ -92,15 +100,16 @@ export type WorkspaceProject = Node & {
   id: Scalars['Int'];
   name: Scalars['String'];
   workspace?: Maybe<Workspace>;
-  setup: Array<WorkspaceProjectSetup>;
+  activeSetup?: Maybe<WorkspaceProjectSetup>;
+  stats?: Maybe<WorkspaceProjectStatsConnection>;
 };
 
 
-export type WorkspaceProjectSetupArgs = {
+export type WorkspaceProjectStatsArgs = {
   first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
   last?: Maybe<Scalars['Int']>;
-  before?: Maybe<WorkspaceProjectSetupWhereUniqueInput>;
-  after?: Maybe<WorkspaceProjectSetupWhereUniqueInput>;
+  before?: Maybe<Scalars['String']>;
 };
 
 export type User = Node & {
@@ -172,23 +181,35 @@ export enum WorkspaceUserRole {
   Admin = 'ADMIN'
 }
 
-export type WorkspaceProjectSetupWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
+export type WorkspaceProjectStatsConnection = {
+  __typename?: 'WorkspaceProjectStatsConnection';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges?: Maybe<Array<Maybe<WorkspaceProjectStatsEdge>>>;
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo;
+  totalCount?: Maybe<Scalars['Int']>;
 };
 
-export type ProjectSetupQueryVariables = Exact<{
+export type WorkspaceProjectStatsEdge = {
+  __typename?: 'WorkspaceProjectStatsEdge';
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String'];
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node?: Maybe<WorkspaceProjectStats>;
+};
+
+export type GetActiveSetupQueryVariables = Exact<{
   projectId: Scalars['Int'];
 }>;
 
 
-export type ProjectSetupQuery = (
+export type GetActiveSetupQuery = (
   { __typename?: 'Query' }
   & { project?: Maybe<(
     { __typename?: 'WorkspaceProject' }
-    & Pick<WorkspaceProject, 'id' | 'name'>
-    & { setup: Array<(
+    & { activeSetup?: Maybe<(
       { __typename?: 'WorkspaceProjectSetup' }
-      & Pick<WorkspaceProjectSetup, 'id'>
+      & Pick<WorkspaceProjectSetup, 'id' | 'key'>
     )> }
   )> }
 );
@@ -233,5 +254,30 @@ export type ListWorkspaceProjectsQuery = (
         )>>> }
       )> }
     ) }
+  )> }
+);
+
+export type GetStatsQueryVariables = Exact<{
+  projectId: Scalars['Int'];
+}>;
+
+
+export type GetStatsQuery = (
+  { __typename?: 'Query' }
+  & { project?: Maybe<(
+    { __typename?: 'WorkspaceProject' }
+    & { stats?: Maybe<(
+      { __typename?: 'WorkspaceProjectStatsConnection' }
+      & { edges?: Maybe<Array<Maybe<(
+        { __typename?: 'WorkspaceProjectStatsEdge' }
+        & { node?: Maybe<(
+          { __typename?: 'WorkspaceProjectStats' }
+          & Pick<WorkspaceProjectStats, 'id'>
+        )> }
+      )>>> }
+    )>, activeSetup?: Maybe<(
+      { __typename?: 'WorkspaceProjectSetup' }
+      & Pick<WorkspaceProjectSetup, 'id' | 'lastUsed'>
+    )> }
   )> }
 );

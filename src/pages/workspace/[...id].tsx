@@ -6,7 +6,7 @@ import { Box } from '@fxtrot/ui'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { getSession } from 'next-auth/client'
 import { prisma } from '../../../prisma'
-import Setup from '../../parts/Setup'
+import Stats from '../../parts/Stats'
 
 const head = (
   <Head>
@@ -29,7 +29,7 @@ const Workspace = ({ redirectUrl }: InferGetServerSidePropsType<typeof getServer
       {head}
       <Box display="grid" gridTemplateColumns={'300px 3fr'} height="100vh">
         <Sidebar />
-        <Setup />
+        <Stats />
       </Box>
     </>
   )

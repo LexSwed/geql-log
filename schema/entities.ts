@@ -42,8 +42,8 @@ export const Workspace = objectType({
             setup: {
               select: {
                 id: true,
-                host: true,
                 key: true,
+                lastUsed: true,
               },
             },
           },
@@ -70,7 +70,15 @@ export const WorkspaceProjectSetup = objectType({
     t.implements(Node)
     t.model.id()
     t.model.key()
-    t.model.host()
+    t.model.lastUsed()
+  },
+})
+
+export const WorkspaceProjectStats = objectType({
+  name: 'WorkspaceProjectStats',
+  definition(t) {
+    t.implements(Node)
+    t.model.id()
   },
 })
 
@@ -81,8 +89,33 @@ export const WorkspaceProject = objectType({
     t.model.id()
     t.model.name()
     t.model.Workspace({ alias: 'workspace' })
-    t.model.setup({
+    t.field('activeSetup', {
       type: 'WorkspaceProjectSetup',
+      resolve: (root, args, { prisma }) => {
+        return prisma.workspaceProjectSetup.findFirst({
+          where: {
+            workspaceProjectId: root.id,
+          },
+        })
+      },
+    })
+
+    t.connectionField('stats', {
+      type: 'WorkspaceProjectStats',
+      totalCount: (root: any, args, { prisma }) => {
+        return prisma.workspaceProjectStats.count({
+          where: {
+            workspaceProjectId: root.id,
+          },
+        })
+      },
+      nodes: async (root, args, { prisma, session }) => {
+        return prisma.workspaceProjectStats.findMany({
+          where: {
+            workspaceProjectId: root.id,
+          },
+        })
+      },
     })
   },
 })

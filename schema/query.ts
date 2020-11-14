@@ -61,10 +61,22 @@ export const Query = queryType({
           required: true,
         }),
       },
-      resolve: (_root, { id }, { prisma }) => {
-        return prisma.workspaceProject.findOne({
+      resolve: (_root, { id }, { prisma, session }) => {
+        // TODO: make sure it's protected well
+        return prisma.workspaceProject.findFirst({
           where: {
             id,
+            AND: {
+              Workspace: {
+                users: {
+                  some: {
+                    user: {
+                      email: session?.user?.email,
+                    },
+                  },
+                },
+              },
+            },
           },
         })
       },

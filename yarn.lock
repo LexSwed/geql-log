@@ -1240,10 +1240,10 @@
     ts-node "^9"
     tslib "^2"
 
-"@fxtrot/ui@^1.0.67":
-  version "1.0.67"
-  resolved "https://registry.yarnpkg.com/@fxtrot/ui/-/ui-1.0.67.tgz#4b89f561cb686d7c86df8278959bc795579b5bf9"
-  integrity sha512-GpxsQJ8xbWV/AZ9cIY/uX7KmBa/+GkGkscVYrq8qPSJIGyrM532ppuO9m4/3PkmadGOurslBRh3YCtVahpSBEg==
+"@fxtrot/ui@^1.0.68":
+  version "1.0.68"
+  resolved "https://registry.yarnpkg.com/@fxtrot/ui/-/ui-1.0.68.tgz#6032698915cf26f7139fb147c86d84d44e4c6220"
+  integrity sha512-g/RGrZP1UqVzbznXRfsRWGsJYiHBsdNbF8svsXviE00ajCcWKuYSUnFH8uHlKhIH2e9Z9OUeafjbtqXfayFyOQ==
   dependencies:
     "@popperjs/core" "^2.5.4"
     "@react-aria/focus" "^3.2.3"

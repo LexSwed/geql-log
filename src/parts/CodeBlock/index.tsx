@@ -15,7 +15,7 @@ const Wrapper = styled('div', {
   position: 'relative',
 
   [`:hover > ${CopyButtonContainer}`]: {
-    opacity: 1,
+    opacity: 0.7,
     pointerEvents: 'all',
   },
 })

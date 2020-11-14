@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "start": "./start.sh",
+    "next:dev": "next dev",
+    "next:build": "next build",
+    "next:start": "next start",
     "prisma:watch": "yarn prisma generate --watch",
     "prisma:migrate": "prisma migrate save --experimental && prisma migrate up --experimental",
     "lint": "eslint pages --fix",
@@ -14,7 +15,7 @@
   "dependencies": {
     "@apollo/client": "^3.2.5",
     "@apollo/link-batch-http": "^2.0.0-beta.3",
-    "@fxtrot/ui": "^1.0.67",
+    "@fxtrot/ui": "^1.0.68",
     "@nexus/schema": "^0.17.0",
     "@prisma/client": "2.11.0",
     "apollo-server-micro": "^2.19.0",

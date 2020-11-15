@@ -1,3 +1,14 @@
 import { PrismaClient } from '@prisma/client'
 
-export const prisma = new PrismaClient()
+// to prevent Next hot reload from recreating connections: https://github.com/prisma/prisma/issues/1983#issuecomment-620621213
+export let prisma
+
+if (process.env.NODE_ENV === 'production') {
+  prisma = new PrismaClient()
+} else {
+  if (!(global as any).prisma) {
+    ;(global as any).prisma = new PrismaClient()
+  }
+
+  prisma = (global as any).prisma
+}

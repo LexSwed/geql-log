@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client'
 import { useSchemaId } from '../../utils'
 import { Box, Flex, Spinner } from '@fxtrot/ui'
 import { GetStatsQuery, GetStatsQueryVariables } from '../../graphql/generated'
-import NoStats from '../NoStats'
+import SetupInstructions from '../SetupInstructions'
 
 const getStatsQuery = gql`
   query getStats($projectId: Int!) {
@@ -14,10 +14,6 @@ const getStatsQuery = gql`
             id
           }
         }
-      }
-      activeSetup {
-        id
-        lastUsed
       }
     }
   }
@@ -40,7 +36,7 @@ const Stats = () => {
   }
 
   if (data?.project?.stats?.edges.length === 0) {
-    return <NoStats />
+    return <SetupInstructions />
   }
 
   return <div></div>

@@ -20,7 +20,7 @@ const Projects: React.FC<{
     <MenuList>
       <Section title="Schemas">
         {projects.map((p) => (
-          <MenuList.Item key={p.node.id} selected={p.node.id === routeSchemaId}>
+          <MenuList.Item key={p.node.id} selected={p.node.id === routeSchemaId} as="li">
             {p.node.name}
           </MenuList.Item>
         ))}

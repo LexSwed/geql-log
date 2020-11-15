@@ -77,7 +77,7 @@ export interface NexusGenRootTypes {
   WorkspaceProjectSetup: { // root type
     id: number; // Int!
     key: string; // String!
-    lastUsed?: NexusGenScalars['DateTime'] | null; // DateTime
+    lastUsedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   WorkspaceProjectStats: { // root type
     id: number; // Int!
@@ -118,6 +118,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
+    createSetup: NexusGenRootTypes['WorkspaceProjectSetup']; // WorkspaceProjectSetup!
     createWorkspace: NexusGenRootTypes['WorkspaceUser']; // WorkspaceUser!
   }
   PageInfo: { // field return type
@@ -164,7 +165,7 @@ export interface NexusGenFieldTypes {
   WorkspaceProjectSetup: { // field return type
     id: number; // Int!
     key: string; // String!
-    lastUsed: NexusGenScalars['DateTime'] | null; // DateTime
+    lastUsedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
   WorkspaceProjectStats: { // field return type
     id: number; // Int!
@@ -200,6 +201,7 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
+    createSetup: 'WorkspaceProjectSetup'
     createWorkspace: 'WorkspaceUser'
   }
   PageInfo: { // field return type name
@@ -246,7 +248,7 @@ export interface NexusGenFieldTypeNames {
   WorkspaceProjectSetup: { // field return type name
     id: 'Int'
     key: 'String'
-    lastUsed: 'DateTime'
+    lastUsedAt: 'DateTime'
   }
   WorkspaceProjectStats: { // field return type name
     id: 'Int'
@@ -282,6 +284,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createSetup: { // args
+      projectId: number; // Int!
+    }
     createWorkspace: { // args
       name: string; // String!
     }

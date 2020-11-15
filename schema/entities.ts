@@ -43,7 +43,7 @@ export const Workspace = objectType({
               select: {
                 id: true,
                 key: true,
-                lastUsed: true,
+                lastUsedAt: true,
               },
             },
           },
@@ -70,7 +70,7 @@ export const WorkspaceProjectSetup = objectType({
     t.implements(Node)
     t.model.id()
     t.model.key()
-    t.model.lastUsed()
+    t.model.lastUsedAt()
   },
 })
 
@@ -94,7 +94,7 @@ export const WorkspaceProject = objectType({
       resolve: (root, args, { prisma }) => {
         return prisma.workspaceProjectSetup.findFirst({
           where: {
-            workspaceProjectId: root.id,
+            projectId: root.id,
           },
         })
       },

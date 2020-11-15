@@ -8,6 +8,9 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
+  """Create project API key"""
+  createSetup(projectId: Int!): WorkspaceProjectSetup!
+
   """Create a workspace for current user"""
   createWorkspace(name: String!): WorkspaceUser!
 }
@@ -149,7 +152,7 @@ type WorkspaceProjectEdge {
 type WorkspaceProjectSetup implements Node {
   id: Int!
   key: String!
-  lastUsed: DateTime
+  lastUsedAt: DateTime
 }
 
 type WorkspaceProjectStats implements Node {

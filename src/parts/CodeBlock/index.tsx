@@ -1,6 +1,7 @@
 import React from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { Box, Button, styled, ThemeProvider } from '@fxtrot/ui'
+import { copyText } from '../../utils'
 
 const CopyButtonContainer = styled('div', {
   position: 'absolute',
@@ -25,7 +26,9 @@ const CodeBlock = ({ children, lang }) => {
     <ThemeProvider theme="black">
       <Wrapper>
         <CopyButtonContainer>
-          <Button size="sm">Copy</Button>
+          <Button size="sm" onClick={() => copyText(children)}>
+            Copy
+          </Button>
         </CopyButtonContainer>
         <SyntaxHighlighter language={lang}>{children}</SyntaxHighlighter>
       </Wrapper>

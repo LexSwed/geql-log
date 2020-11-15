@@ -42,11 +42,18 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Create a workspace for current user */
   createWorkspace: WorkspaceUser;
+  /** Create project API key */
+  createSetup: WorkspaceProjectSetup;
 };
 
 
 export type MutationCreateWorkspaceArgs = {
   name: Scalars['String'];
+};
+
+
+export type MutationCreateSetupArgs = {
+  projectId: Scalars['Int'];
 };
 
 export type Node = {
@@ -87,7 +94,7 @@ export type WorkspaceProjectSetup = Node & {
   __typename?: 'WorkspaceProjectSetup';
   id: Scalars['Int'];
   key: Scalars['String'];
-  lastUsed?: Maybe<Scalars['DateTime']>;
+  lastUsedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type WorkspaceProjectStats = Node & {
@@ -198,6 +205,11 @@ export type WorkspaceProjectStatsEdge = {
   node?: Maybe<WorkspaceProjectStats>;
 };
 
+export type SetupFragmentFragment = (
+  { __typename?: 'WorkspaceProjectSetup' }
+  & Pick<WorkspaceProjectSetup, 'id' | 'key'>
+);
+
 export type GetActiveSetupQueryVariables = Exact<{
   projectId: Scalars['Int'];
 }>;
@@ -207,11 +219,25 @@ export type GetActiveSetupQuery = (
   { __typename?: 'Query' }
   & { project?: Maybe<(
     { __typename?: 'WorkspaceProject' }
+    & Pick<WorkspaceProject, 'id'>
     & { activeSetup?: Maybe<(
       { __typename?: 'WorkspaceProjectSetup' }
-      & Pick<WorkspaceProjectSetup, 'id' | 'key'>
+      & SetupFragmentFragment
     )> }
   )> }
+);
+
+export type CreateSetupMutationVariables = Exact<{
+  projectId: Scalars['Int'];
+}>;
+
+
+export type CreateSetupMutation = (
+  { __typename?: 'Mutation' }
+  & { createSetup: (
+    { __typename?: 'WorkspaceProjectSetup' }
+    & SetupFragmentFragment
+  ) }
 );
 
 export type CreateWorkspaceMutationVariables = Exact<{
@@ -275,9 +301,6 @@ export type GetStatsQuery = (
           & Pick<WorkspaceProjectStats, 'id'>
         )> }
       )>>> }
-    )>, activeSetup?: Maybe<(
-      { __typename?: 'WorkspaceProjectSetup' }
-      & Pick<WorkspaceProjectSetup, 'id' | 'lastUsed'>
     )> }
   )> }
 );

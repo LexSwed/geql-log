@@ -105,6 +105,7 @@ function CreateSetup({ setup }) {
             />
             <Box ml={-1} zIndex={2}>
               <Button
+                aria-label="Copy key to clipboard"
                 variant="outline"
                 css={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
                 onClick={() => copyText(setup.key)}

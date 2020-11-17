@@ -1,4 +1,5 @@
 import { ApolloServer } from 'apollo-server-micro'
+import { ApolloServerPlugin } from 'apollo-server-plugin-base'
 import { NextApiHandler } from 'next'
 import { getSession } from 'next-auth/client'
 import { schema } from '../../../schema'
@@ -9,6 +10,7 @@ const server = new ApolloServer({
   context: createContext,
   tracing: process.env.NODE_ENV === 'development',
   introspection: process.env.NODE_ENV === 'development',
+  plugins: [plugin()],
 })
 
 const graphqlHandler = server.createHandler({ path: '/api/gql' })
@@ -36,3 +38,38 @@ const handler: NextApiHandler = async (req, res) => {
 }
 
 export default handler
+
+function plugin() {
+  return (): ApolloServerPlugin => ({
+    serverWillStart(service) {
+      console.dir(service.schema)
+    },
+    requestDidStart() {
+      return {
+        parsingDidStart() {
+          return (err) => {
+            if (err) {
+              console.error(err)
+            }
+          }
+        },
+        validationDidStart() {
+          // This end hook is unique in that it can receive an array of errors,
+          // which will contain every validation error that occurred.
+          return (errs) => {
+            if (errs) {
+              errs.forEach((err) => console.error(err))
+            }
+          }
+        },
+        executionDidStart() {
+          return (err) => {
+            if (err) {
+              console.error(err)
+            }
+          }
+        },
+      }
+    },
+  })
+}

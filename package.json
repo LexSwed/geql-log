@@ -41,6 +41,7 @@
     "@types/next-auth": "^3.1.15",
     "@types/node": "^14.14.7",
     "@types/react": "^16.9.56",
+    "apollo-server-plugin-base": "^0.10.2",
     "eslint-config-react-app": "^6.0.0",
     "prettier": "^2.1.2",
     "typescript": "^4.0.5",

@@ -86,13 +86,25 @@ model WorkspaceProjectSetup {
   key           String             @default(cuid())
   projectId     Int                @map(name: "project_id")
   project       WorkspaceProject   @relation(fields: [projectId], references: [id])
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  lastUsedAt      DateTime?  @map(name: "last_used_at")
+  createdAt     DateTime           @default(now()) @map(name: "created_at")
+  lastUsedAt    DateTime?          @map(name: "last_used_at")
 }
 
 
 model WorkspaceProjectStats {
   id            Int       @id @default(autoincrement())
+}
+
+model Operation {
+  id            Int                  @id @default(autoincrement())
+  type          OperationType
+  name          String?
+  source        String
+}
+
+enum OperationType {
+  QUERY
+  MUTATION
 }
 
 enum WorkspaceUserRole {

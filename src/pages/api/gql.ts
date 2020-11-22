@@ -41,10 +41,8 @@ export default handler
 
 function plugin() {
   return (): ApolloServerPlugin => ({
-    serverWillStart(service) {
-      console.dir(service.schema)
-    },
-    requestDidStart() {
+    requestDidStart(context) {
+      // console.dir(context)
       return {
         parsingDidStart() {
           return (err) => {
@@ -68,6 +66,10 @@ function plugin() {
               console.error(err)
             }
           }
+        },
+        willSendResponse(context) {
+          console.dir(JSON.parse(JSON.stringify(context.request.variables)))
+          console.dir(JSON.parse(JSON.stringify(context.operation)), { depth: null })
         },
       }
     },
